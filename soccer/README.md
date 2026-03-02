@@ -1,5 +1,10 @@
 이 프로젝트는 [`EasyNext`](https://github.com/easynext/easynext)를 사용해 생성된 [Next.js](https://nextjs.org) 프로젝트입니다.
 
+## 배포
+
+- **Production**: <https://soccer-app-three.vercel.app/>
+- **Hosting**: Vercel (Hobby Plan) + Supabase (Free Plan)
+
 ## 테스트 계정
 
 | 이메일 | 비밀번호 | 비고 |
