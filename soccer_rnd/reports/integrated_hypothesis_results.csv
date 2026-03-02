@@ -1,0 +1,14 @@
+﻿가설,검증항목,측정값,기준,판정
+H1,AIC_차이_Hooper,1403.7,ΔAIC > 100,PASS
+H1,R2_도약,"OLS=0.0285, Mixed=0.4536",OLS R² < 0.05 AND Mixed R² > 0.30,PASS
+H1,ICC_순서,"Hooper=0.4503, HRV=0.2970",ICC_hooper > ICC_hrv,PASS
+H1,LOSO_MAE,"Mixed LOSO=1.6078, OLS 전체=1.5634",Mixed LOSO MAE > OLS 전체 MAE,PASS
+H2,AIC_차이,54.9,ΔAIC > 4,PASS
+H2,Cohen_f2,0.0214,f² > 0.02,PASS
+H2,LOSO_MAE_개선,3.1%,MAE 5% 이상 개선,FAIL
+H3,Mono_유의성,p = 0.5636,p < 0.05,FAIL
+H3,억제변수_효과,262.1%,Strain 전/후 Mono 계수 변화 > 50%,PASS
+H3,참값_복원,26.67%,|β_mono - 0.14| / 0.14 < 0.30,PASS
+H4,MCAR_편향,3.35%,|bias|/|true| < 10%,PASS
+H4,편향_순서,MNAR=4.12% > MAR=9.50% > MCAR=3.35%,bias_MNAR > bias_MAR > bias_MCAR,FAIL
+H4,Coverage_순서,MNAR=97.00% < MAR=97.00% < MCAR=97.00%,Coverage_MNAR < Coverage_MAR < Coverage_MCAR,FAIL

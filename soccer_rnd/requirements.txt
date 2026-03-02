@@ -1,0 +1,26 @@
+# 스포츠 피로도 R&D 프로젝트 의존성 패키지
+# 재현성을 위해 버전을 고정합니다.
+
+# 데이터 처리 및 수치 연산
+numpy==1.26.4
+pandas==2.3.1
+scipy==1.16.1
+
+# 시각화
+matplotlib==3.10.5
+seaborn==0.13.2
+
+# 통계 분석
+statsmodels==0.14.5
+patsy==1.0.1
+
+# 머신러닝 (교차 검증 등)
+scikit-learn==1.7.1
+
+# 테스트
+pytest==9.0.1
+
+# Jupyter 노트북 환경
+jupyter==1.0.0
+ipykernel==6.29.0
+notebook==7.1.2
