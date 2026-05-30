@@ -1,10 +1,10 @@
-> **문서 ID**: TRK-B-EDA · **버전**: v2 · **최종수정**: 2026-05-30 · **상위문서**: [RESEARCH_PROTOCOL.md](../RESEARCH_PROTOCOL.md)
+> **문서 ID**: TRK-B-EDA · **버전**: v2 · **최종수정**: 2026-05-30 · **상위문서**: [RESEARCH_PROTOCOL.md](../../RESEARCH_PROTOCOL.md)
 
 # 트랙 B EDA 계획
 
 > 목적: sRPE/ACWR/Monotony 부하 지표와 Hooper Index 웰니스 간 시차 관계 탐색
 
-지표 수식 정의는 [METRICS_FORMULAS.md](../METRICS_FORMULAS.md)를 교차참조한다.
+지표 수식 정의는 [METRICS_FORMULAS.md](../../../standards/METRICS_FORMULAS.md)를 교차참조한다.
 
 ## 데이터셋
 - 실제 채택: SoccerMon (Midoglu et al., 2024; DOI: 10.5281/zenodo.10033832) — 프로 축구 44명, 24,596 athlete-days, 2020-01-09~2021-12-31
@@ -25,7 +25,7 @@
 | Monotony (M±SD, 모형) | 1.324 ± 0.543 |
 | Strain (M±SD, 모형) | 3,598.8 ± 2,428.7 |
 
-출처: [reports/track_B_model_comparison.md](../../reports/track_B_model_comparison.md)
+출처: [reports/track_B_model_comparison.md](../../../../reports/track_B_model_comparison.md)
 
 ---
 
@@ -52,7 +52,7 @@ flowchart LR
 ### 2단계: 주간 부하 패턴 및 지표 산출
 - 선수별 ACWR(rolling/EWMA), Monotony, Strain 산출
   - 코드 경로: `src/metrics/acwr.py`, `src/metrics/monotony_strain.py`
-  - 수식 교차참조: [METRICS_FORMULAS.md §4 ACWR](../METRICS_FORMULAS.md), [§5 Monotony](../METRICS_FORMULAS.md), [§6 Strain](../METRICS_FORMULAS.md)
+  - 수식 교차참조: [METRICS_FORMULAS.md §4 ACWR](../../../standards/METRICS_FORMULAS.md), [§5 Monotony](../../../standards/METRICS_FORMULAS.md), [§6 Strain](../../../standards/METRICS_FORMULAS.md)
 - 요일별 평균 부하 막대 그래프 (월~일 패턴; `reports/figures/track_B_weekly_load_pattern.png`)
 - 대표 선수 시계열: daily_load, ATL, CTL, ACWR, Monotony, Strain (`reports/figures/track_B_timeseries_sample.png`)
 

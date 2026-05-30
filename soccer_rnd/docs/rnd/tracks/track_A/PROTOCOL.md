@@ -1,4 +1,4 @@
-> **문서 ID**: TRK-A-PROTOCOL · **버전**: v1.0 · **최종수정**: 2026-05-30 · **상위문서**: [RESEARCH_PROTOCOL.md](../RESEARCH_PROTOCOL.md) · **담당영역**: Track A (HRV 중심, PhysioNet ACTES)
+> **문서 ID**: TRK-A-PROTOCOL · **버전**: v1.0 · **최종수정**: 2026-05-30 · **상위문서**: [RESEARCH_PROTOCOL.md](../../RESEARCH_PROTOCOL.md) · **담당영역**: Track A (HRV 중심, PhysioNet ACTES)
 
 # Track A 연구 프로토콜 (HRV 중심)
 
@@ -13,7 +13,7 @@
 2. 피험자별 랜덤효과를 포함하면 모형 적합도가 향상되는가?
 3. 랜덤 기울기(피험자별 파워–HRV 민감도 차이)를 추가하면 추가 설명력이 있는가?
 
-> **분석 범위 고지**: ACTES 데이터셋은 단일 세션 점증 부하 검사(graded exercise test) 구조이므로, 다중 일간 ACWR→HRV 시차 분석은 적용 불가하다. 대신 파워 구간별 HRV 용량-반응 관계를 분석하는 방식으로 설계를 조정하였다. 이러한 설계 조정의 근거는 `docs/DECISIONS.md` ADR에 기록되어 있다.
+> **분석 범위 고지**: ACTES 데이터셋은 단일 세션 점증 부하 검사(graded exercise test) 구조이므로, 다중 일간 ACWR→HRV 시차 분석은 적용 불가하다. 대신 파워 구간별 HRV 용량-반응 관계를 분석하는 방식으로 설계를 조정하였다. 이러한 설계 조정의 근거는 `docs/rnd/DECISIONS.md` ADR에 기록되어 있다.
 
 ---
 
@@ -75,7 +75,7 @@
 | **SDNN** | Standard Deviation of NN intervals (ms) | `src/metrics/hrv_features.py::sdnn()` |
 | **ln_rMSSD** | 자연 로그 변환 rMSSD — 분포 정규화 목적 | `src/metrics/hrv_features.py::ln_rmssd()` |
 
-주 결과변수는 **rMSSD** 및 **ln_rMSSD**이다. 수식 원문은 [../METRICS_FORMULAS.md #8 HRV 지표](../METRICS_FORMULAS.md#8-hrv-지표-rmssd-sdnn) 참조.
+주 결과변수는 **rMSSD** 및 **ln_rMSSD**이다. 수식 원문은 [../METRICS_FORMULAS.md #8 HRV 지표](../../../standards/METRICS_FORMULAS.md#8-hrv-지표-rmssd-sdnn) 참조.
 
 ---
 
@@ -163,7 +163,7 @@ rMSSD ~ C(power_zone, Treatment(reference='Rest')) # M1 (OLS 베이스라인)
 ln_rMSSD ~ power_mean + (1 | subject)   # 486개 윈도우
 ```
 
-상세 모형 비교 결과는 [STATS_PLAN.md](./STATS_PLAN.md) 및 `reports/track_A_model_comparison.md` 참조.
+상세 모형 비교 결과는 [STATS_PLAN.md](STATS_PLAN.md) 및 `reports/track_A_model_comparison.md` 참조.
 
 ---
 

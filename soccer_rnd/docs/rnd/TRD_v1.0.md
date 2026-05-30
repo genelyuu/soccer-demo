@@ -16,7 +16,7 @@
 | **검토 대상** | `soccer_rnd/` 전체 파이프라인 (Stage 0~8) |
 | **관련 프로젝트** | `soccer_rnd` (스포츠 피로도 R&D), `soccer` (서비스 MVP) |
 | **배포 범위** | 사내 전체 (R&D팀, PM, 리뷰어, 면접 패널) |
-| **선행 문서** | `README.md`, `docs/RESEARCH_PROTOCOL.md`, `docs/DECISIONS.md`, `docs/METRICS_FORMULAS.md`, `reports/POV_REPORT.md` |
+| **선행 문서** | `README.md`, `docs/rnd/RESEARCH_PROTOCOL.md`, `docs/rnd/DECISIONS.md`, `docs/standards/METRICS_FORMULAS.md`, `reports/POV_REPORT.md` |
 
 ---
 
@@ -33,7 +33,7 @@
 
 ### 목적
 
-본 TRD는 `soccer_rnd` 저장소의 전체 분석 파이프라인(Stage 0~8)을 **검증 가능한 원자적 요구사항(atomic requirement)** 단위로 분해하여, 우선순위·중요도·상태를 명시하고 각 요구사항을 실존하는 검증경로(`tests/`·`reports/`·`notebooks/`)와 근거(ADR·문헌)에 추적 연결한다. Stage 0~7은 연관성/설명 단계로서 대체로 완료(✅) 상태이며, Stage 8(부상 예측 격상)은 `docs/RESEARCH_PROTOCOL.md`로 프로토콜 확정된 계획/진행(📋/🔄) 상태다.
+본 TRD는 `soccer_rnd` 저장소의 전체 분석 파이프라인(Stage 0~8)을 **검증 가능한 원자적 요구사항(atomic requirement)** 단위로 분해하여, 우선순위·중요도·상태를 명시하고 각 요구사항을 실존하는 검증경로(`tests/`·`reports/`·`notebooks/`)와 근거(ADR·문헌)에 추적 연결한다. Stage 0~7은 연관성/설명 단계로서 대체로 완료(✅) 상태이며, Stage 8(부상 예측 격상)은 `docs/rnd/RESEARCH_PROTOCOL.md`로 프로토콜 확정된 계획/진행(📋/🔄) 상태다.
 
 > **원자성 규약**: 각 REQ는 단일 책임(single responsibility)을 가지며 1개의 검증 가능한 단언만 담는다. 복합 요구("A 및 B")는 분할한다. 모든 REQ-ID는 고유하며 의존성 참조는 본 문서에 실재하는 REQ-ID만 가리킨다.
 
@@ -80,7 +80,7 @@
 | 통합 가설 | REQ-H | 5 | 4 | ✅ |
 | 합성 검증 | REQ-Y | 6 | 2 | ✅ |
 | PoV 리포트 | REQ-V | 7 | 2 | ✅ |
-| 부상 예측 | REQ-P | 8 | 7 | 📋/🔄 |
+| 부상 예측 | REQ-P | 8 | 7 | ✅ P0~P3(P-01~03)·🔄 P-06 / 📋 P4~P6 |
 | **합계** | | | **36** | |
 
 ---
@@ -174,7 +174,7 @@ flowchart TD
 - **설명**: 연속 부상-일 시퀀스에서 직전 부상과 gap≥7일이면 신규 독립 onset 1건으로 라벨링한다.
 - **수용기준**: onset(gap≥7) = **43건**, 발생률 **1.75 onset/1000 athlete-days**가 seed 고정 하에 재현된다.
 - **의존성**: 없음
-- **검증경로**: `docs/RESEARCH_PROTOCOL.md` §B.2 · `scripts/eda_protocol.py`
+- **검증경로**: `docs/rnd/RESEARCH_PROTOCOL.md` §B.2 · `scripts/eda_protocol.py`
 - **근거**: RESEARCH_PROTOCOL §P0, [Ref] Gabbett (2016)
 
 #### REQ-G-02  데이터 출처·라이선스 명시
@@ -188,9 +188,9 @@ flowchart TD
 #### REQ-G-03  핵심 결정의 ADR 기록 규약
 - **우선순위**: P0  **중요도**: ★  **상태**: ✅완료
 - **설명**: 지표 윈도우·결과변수·결측·이상치 등 핵심 결정을 ADR 형식으로 단일 문서에 기록한다.
-- **수용기준**: ADR-001~012가 `docs/DECISIONS.md`에 일자·상태·근거 필드를 갖춰 존재한다.
+- **수용기준**: ADR-001~012가 `docs/rnd/DECISIONS.md`에 일자·상태·근거 필드를 갖춰 존재한다.
 - **의존성**: 없음
-- **검증경로**: `docs/DECISIONS.md`
+- **검증경로**: `docs/rnd/DECISIONS.md`
 - **근거**: ADR-003 (config.json teamPolicy)
 
 ---
@@ -202,7 +202,7 @@ flowchart TD
 - **설명**: 생리적으로 불가능한 RR 값(상한 30,500ms 등)을 이상치로 필터링한다.
 - **수용기준**: 클리닝 후 RR이 생리적 범위로 제한되어 zone별 rMSSD 산출이 가능하다.
 - **의존성**: REQ-G-02
-- **검증경로**: `tests/test_data_pipeline.py` · `docs/RESEARCH_PROTOCOL.md` §B.3
+- **검증경로**: `tests/test_data_pipeline.py` · `docs/rnd/RESEARCH_PROTOCOL.md` §B.3
 - **근거**: ADR-004 (결측 NA 유지)
 
 #### REQ-D-02  Wide→Long 변환 및 활성 시즌 필터
@@ -210,7 +210,7 @@ flowchart TD
 - **설명**: SoccerMon 원자료를 athlete-day Long 패널로 변환하고 활성 시즌만 필터링한다.
 - **수용기준**: 활성 필터 후 선수 **44명**, **24,596 athlete-days** 패널이 산출된다.
 - **의존성**: REQ-G-01
-- **검증경로**: `tests/test_data_pipeline.py` · `docs/RESEARCH_PROTOCOL.md` §B.1
+- **검증경로**: `tests/test_data_pipeline.py` · `docs/rnd/RESEARCH_PROTOCOL.md` §B.1
 - **근거**: ADR-004
 
 #### REQ-D-03  Data Dictionary 실측 기술통계 고정
@@ -218,7 +218,7 @@ flowchart TD
 - **설명**: 분석 패널 각 변수의 평균·SD·범위·결측률을 실측 기준으로 명세한다.
 - **수용기준**: daily_load 284.9±323.3, acwr 상한 4.0 캡핑, 웰니스 결측 32.4%가 명세표에 일치한다.
 - **의존성**: REQ-D-02
-- **검증경로**: `docs/RESEARCH_PROTOCOL.md` §B.1 · `scripts/eda_protocol.py`
+- **검증경로**: `docs/rnd/RESEARCH_PROTOCOL.md` §B.1 · `scripts/eda_protocol.py`
 - **근거**: ADR-004
 
 #### REQ-D-04  부하 지표 사전산출 결측 메커니즘 기록
@@ -226,7 +226,7 @@ flowchart TD
 - **설명**: 부하 지표 결측 0%(전진충전)와 웰니스 결측 32%의 상이한 메커니즘을 ADR로 기록한다.
 - **수용기준**: 부하·웰니스 결측 메커니즘 차이가 RESEARCH_PROTOCOL §B.1 노트에 명시된다.
 - **의존성**: REQ-D-03
-- **검증경로**: `docs/RESEARCH_PROTOCOL.md` §B.1
+- **검증경로**: `docs/rnd/RESEARCH_PROTOCOL.md` §B.1
 - **근거**: ADR-004
 
 ---
@@ -238,7 +238,7 @@ flowchart TD
 - **설명**: ACWR을 Rolling과 EWMA 두 변형으로 모두 산출한다.
 - **수용기준**: `acwr_rolling()`·`acwr_ewma()`가 EWMA decay 2/8·2/29로 산출되고 단위테스트를 통과한다.
 - **의존성**: REQ-D-02
-- **검증경로**: `tests/test_metrics_acwr.py` · `docs/METRICS_FORMULAS.md` §4
+- **검증경로**: `tests/test_metrics_acwr.py` · `docs/standards/METRICS_FORMULAS.md` §4
 - **근거**: ADR-002, [Ref] Williams et al. (2017)
 
 #### REQ-M-02  Monotony/Strain 산출
@@ -246,7 +246,7 @@ flowchart TD
 - **설명**: 7일 윈도우 Monotony와 주간부하×Monotony Strain을 산출한다.
 - **수용기준**: sd=0 시 cap=10.0 처리 포함, Monotony·Strain이 Foster 정의대로 산출되어 테스트를 통과한다.
 - **의존성**: REQ-M-01
-- **검증경로**: `tests/test_metrics_monotony_strain.py` · `docs/METRICS_FORMULAS.md` §5-6
+- **검증경로**: `tests/test_metrics_monotony_strain.py` · `docs/standards/METRICS_FORMULAS.md` §5-6
 - **근거**: ADR-008, [Ref] Foster (1998)
 
 #### REQ-M-03  HRV 시간영역 지표 산출
@@ -254,7 +254,7 @@ flowchart TD
 - **설명**: 클리닝된 RR로부터 rMSSD·SDNN·ln_rMSSD를 산출한다.
 - **수용기준**: zone별 rMSSD가 Rest 7.60±2.39 → High 4.59±1.55의 단조 감소를 재현한다.
 - **의존성**: REQ-D-01
-- **검증경로**: `docs/RESEARCH_PROTOCOL.md` §C.3 · `docs/METRICS_FORMULAS.md` §8
+- **검증경로**: `docs/rnd/RESEARCH_PROTOCOL.md` §C.3 · `docs/standards/METRICS_FORMULAS.md` §8
 - **근거**: [Ref] Plews et al. (2013), Task Force (1996)
 
 #### REQ-M-04  대안 부하 지표 병행 산출
@@ -270,7 +270,7 @@ flowchart TD
 - **설명**: coupling 보정으로 ACWR 산출값에 상한 4.0 캡을 적용한다.
 - **수용기준**: 산출 패널의 acwr 최대값이 4.00을 넘지 않는다.
 - **의존성**: REQ-M-01
-- **검증경로**: `docs/RESEARCH_PROTOCOL.md` §B.1 · `tests/test_metrics_acwr.py`
+- **검증경로**: `docs/rnd/RESEARCH_PROTOCOL.md` §B.1 · `tests/test_metrics_acwr.py`
 - **근거**: ADR-004, ADR-011
 
 ---
@@ -282,7 +282,7 @@ flowchart TD
 - **설명**: 분포·결측·위험구간을 기술통계로 탐색한다.
 - **수용기준**: ACWR sweet spot 48.4%·위험구간(>1.5) 11.5%, Strain 우편향이 EDA 산출물에 일치한다.
 - **의존성**: REQ-M-01, REQ-M-02
-- **검증경로**: `notebooks/track_B_eda.ipynb` · `docs/RESEARCH_PROTOCOL.md` §C.1
+- **검증경로**: `notebooks/track_B_eda.ipynb` · `docs/rnd/RESEARCH_PROTOCOL.md` §C.1
 - **근거**: ADR-004
 
 #### REQ-E-02  부상 onset 시간 구조·불균형 EDA
@@ -290,7 +290,7 @@ flowchart TD
 - **설명**: 예측 윈도우 k(1/3/7)별 양성률과 불균형비를 산출한다.
 - **수용기준**: k=1 1:664, k=3 1:223, k=7 1:96의 불균형비가 재현된다.
 - **의존성**: REQ-E-01, REQ-G-01
-- **검증경로**: `docs/RESEARCH_PROTOCOL.md` §C.2 · `scripts/eda_protocol.py`
+- **검증경로**: `docs/rnd/RESEARCH_PROTOCOL.md` §C.2 · `scripts/eda_protocol.py`
 - **근거**: RESEARCH_PROTOCOL §C.2
 
 #### REQ-E-03  HRV 용량-반응 EDA
@@ -435,30 +435,30 @@ flowchart TD
 
 ### 영역 P — 부상 예측 격상 P0~P6 (Stage 8)
 
-> Stage 8은 연관성 → 예측·인과·임상효용으로 격상하는 단계로, `docs/RESEARCH_PROTOCOL.md`에서 프로토콜 확정. 검정력 제약(독립 onset **43건**, **EPV≤4**) 하에서 *방법론 시연*이 1차 가치다.
+> Stage 8은 연관성 → 예측·인과·임상효용으로 격상하는 단계로, `docs/rnd/RESEARCH_PROTOCOL.md`에서 프로토콜 확정. 검정력 제약(독립 onset **43건**, **EPV≤4**) 하에서 *방법론 시연*이 1차 가치다.
 
 #### REQ-P-01  P0 onset 라벨 빌더 + 단위테스트
-- **우선순위**: P0  **중요도**: ★★★  **상태**: 🔄진행
+- **우선순위**: P0  **중요도**: ★★★  **상태**: ✅완료
 - **설명**: onset(gap≥7)·중증도·위험집합을 산출하는 라벨 빌더와 재현 테스트를 구현한다.
-- **수용기준**: 라벨 빌더가 onset 43건·발생률 1.75/1000을 seed 고정으로 재현한다.
+- **수용기준**: 라벨 빌더가 onset 43건·발생률 1.75/1000을 seed 고정으로 재현한다. (충족: onset=43, rate=1.748/1000, gap=3→75)
 - **의존성**: REQ-G-01, REQ-V-01
-- **검증경로**: `docs/RESEARCH_PROTOCOL.md` §P0 (계획: `tests/test_injury_label.py`)
-- **근거**: RESEARCH_PROTOCOL §H-P0, ADR(예정) injury-label
+- **검증경로**: `src/data/injury_label.py`, `tests/test_injury_label.py`(7건 통과), `reports/injury_prediction_report.md`
+- **근거**: RESEARCH_PROTOCOL §H-P0, ADR-014 injury-label
 
 #### REQ-P-02  검정력 제약 EPV≤4 변수 예산 강제
-- **우선순위**: P0  **중요도**: ★★★  **상태**: 📋계획
+- **우선순위**: P0  **중요도**: ★★★  **상태**: ✅완료
 - **설명**: 동시 투입 예측변수 수를 EPV 10 규칙상 4개 이하로 제한한다.
-- **수용기준**: 주 추론 모형의 동시 투입 변수가 ≤4개임이 모형 명세에 강제된다.
+- **수용기준**: 주 추론 모형의 동시 투입 변수가 ≤4개임이 모형 명세에 강제된다. (충족: 주모형 ACWR 단독 총효과, ADR-014·INJURY_PREDICTION.md에 명문화)
 - **의존성**: REQ-P-01
-- **검증경로**: `docs/RESEARCH_PROTOCOL.md` §E.1
+- **검증경로**: `docs/rnd/DECISIONS.md` ADR-014, `docs/rnd/tracks/track_B/INJURY_PREDICTION.md`, `src/stats/survival_models.py`
 - **근거**: RESEARCH_PROTOCOL §E.1 (EPV)
 
 #### REQ-P-03  P3 주 추론 설계 삼각검증
-- **우선순위**: P1  **중요도**: ★★★  **상태**: 📋계획
+- **우선순위**: P1  **중요도**: ★★★  **상태**: ✅완료
 - **설명**: 이산시간 생존(frailty)·case-crossover·벌점 GLMM 3종으로 방향 일관성을 검증한다.
-- **수용기준**: 설계 3종의 효과 방향이 일관되고 민감도 분석을 통과한다.
+- **수용기준**: 설계 3종의 효과 방향이 일관되고 민감도 분석을 통과한다. (충족: 3/3 위험↑ 일관 — HR=3.26·OR=1.16·coef=+0.175, gap 3/7 방향 유지)
 - **의존성**: REQ-P-02
-- **검증경로**: `docs/RESEARCH_PROTOCOL.md` §E.3, §H-P3
+- **검증경로**: `src/stats/survival_models.py`, `tests/test_survival_models.py`(11건 통과), `notebooks/run_injury_inference.py`, `reports/injury_prediction_report.md`
 - **근거**: RESEARCH_PROTOCOL §E.3
 
 #### REQ-P-04  P4 예측·확률보정·decision-curve
@@ -466,7 +466,7 @@ flowchart TD
 - **설명**: 벌점 회귀 주모형의 시간분리 net benefit이 Gabbett 룰 기준선을 초과함을 검증한다.
 - **수용기준**: TRIPOD 표·calibration·DCA에서 시간분리 net benefit > 룰 baseline.
 - **의존성**: REQ-P-03
-- **검증경로**: `docs/RESEARCH_PROTOCOL.md` §F, §H-P4
+- **검증경로**: `docs/rnd/RESEARCH_PROTOCOL.md` §F, §H-P4
 - **근거**: RESEARCH_PROTOCOL §F (TRIPOD), RQ1
 
 #### REQ-P-05  P5 MNAR 결측 강건성
@@ -474,15 +474,15 @@ flowchart TD
 - **설명**: 웰니스 32% MNAR 결측의 추정 편향을 Monte Carlo로 정량화한다(H4 재사용).
 - **수용기준**: MNAR 편향률·coverage가 정량 보고되어 결론의 가정 강건성이 입증된다.
 - **의존성**: REQ-P-04, REQ-H-04
-- **검증경로**: `docs/RESEARCH_PROTOCOL.md` §H-P5
+- **검증경로**: `docs/rnd/RESEARCH_PROTOCOL.md` §H-P5
 - **근거**: RESEARCH_PROTOCOL §A′.6-5, RQ4
 
 #### REQ-P-06  PR-AUC·recall 기반 불균형 평가
-- **우선순위**: P2  **중요도**: ★★★  **상태**: 📋계획
+- **우선순위**: P2  **중요도**: ★★★  **상태**: 🔄진행
 - **설명**: 극단 불균형(0.15~1%) 하에서 ROC-AUC가 아닌 PR-AUC·recall@고정정밀도로 성능을 평가한다.
-- **수용기준**: PR-AUC > 기저율×2, 시간분리 검증에서 유지된다(RQ1 PASS 기준).
+- **수용기준**: PR-AUC > 기저율×2, 시간분리 검증에서 유지된다(RQ1 PASS 기준). (평가 프레임워크·Gabbett 기준선 구현 완료; 단 현 모형 lift≈1.07~1.09·시간분리 0.91로 PASS 기준 미달 — 방법론 시연 단계)
 - **의존성**: REQ-P-04
-- **검증경로**: `docs/RESEARCH_PROTOCOL.md` §C.2, §D
+- **검증경로**: `src/stats/injury_eval.py`, `src/stats/injury_baseline.py`, `tests/test_injury_baseline.py`(14건 통과)
 - **근거**: RESEARCH_PROTOCOL §C.2, RQ1
 
 #### REQ-P-07  P6 재현 패키지·데모 전달
@@ -490,7 +490,7 @@ flowchart TD
 - **설명**: 동일입력→동일결과 재현 패키지와 선수별 위험 데모를 전달한다.
 - **수용기준**: 데모 URL과 TRIPOD 체크리스트가 동일입력 재현성을 만족한다.
 - **의존성**: REQ-P-04
-- **검증경로**: `docs/RESEARCH_PROTOCOL.md` §H-P6
+- **검증경로**: `docs/rnd/RESEARCH_PROTOCOL.md` §H-P6
 - **근거**: RESEARCH_PROTOCOL §H-P6
 
 ---
@@ -588,20 +588,20 @@ flowchart LR
 
 | REQ-ID | 검증경로 (실존) | 근거 |
 |---|---|---|
-| REQ-G-01 | `docs/RESEARCH_PROTOCOL.md` · `scripts/eda_protocol.py` | RP §P0 |
+| REQ-G-01 | `docs/rnd/RESEARCH_PROTOCOL.md` · `scripts/eda_protocol.py` | RP §P0 |
 | REQ-G-02 | `README.md` · `data/raw/track_A/LICENSE.txt` | ADR-005/006 |
-| REQ-G-03 | `docs/DECISIONS.md` | ADR-003 |
+| REQ-G-03 | `docs/rnd/DECISIONS.md` | ADR-003 |
 | REQ-D-01 | `tests/test_data_pipeline.py` | ADR-004 |
 | REQ-D-02 | `tests/test_data_pipeline.py` | ADR-004 |
-| REQ-D-03 | `docs/RESEARCH_PROTOCOL.md` · `scripts/eda_protocol.py` | ADR-004 |
-| REQ-D-04 | `docs/RESEARCH_PROTOCOL.md` | ADR-004 |
+| REQ-D-03 | `docs/rnd/RESEARCH_PROTOCOL.md` · `scripts/eda_protocol.py` | ADR-004 |
+| REQ-D-04 | `docs/rnd/RESEARCH_PROTOCOL.md` | ADR-004 |
 | REQ-M-01 | `tests/test_metrics_acwr.py` | ADR-002 |
 | REQ-M-02 | `tests/test_metrics_monotony_strain.py` | ADR-008 |
-| REQ-M-03 | `docs/METRICS_FORMULAS.md` · `docs/RESEARCH_PROTOCOL.md` | [Ref] Plews (2013) |
+| REQ-M-03 | `docs/standards/METRICS_FORMULAS.md` · `docs/rnd/RESEARCH_PROTOCOL.md` | [Ref] Plews (2013) |
 | REQ-M-04 | `tests/test_alternative_load.py` | ADR-011 |
 | REQ-M-05 | `tests/test_metrics_acwr.py` | ADR-004/011 |
 | REQ-E-01 | `notebooks/track_B_eda.ipynb` | ADR-004 |
-| REQ-E-02 | `docs/RESEARCH_PROTOCOL.md` · `scripts/eda_protocol.py` | RP §C.2 |
+| REQ-E-02 | `docs/rnd/RESEARCH_PROTOCOL.md` · `scripts/eda_protocol.py` | RP §C.2 |
 | REQ-E-03 | `notebooks/track_A_eda.ipynb` | RP §C.3 |
 | REQ-S-01 | `tests/test_mixed_effects.py` · `reports/track_B_model_comparison.md` | ADR-008 |
 | REQ-S-02 | `tests/test_mixed_effects.py` · `reports/track_B_model_comparison.md` | ADR-008 |
@@ -617,15 +617,15 @@ flowchart LR
 | REQ-Y-02 | `tests/test_seed_generation.py` | ADR-007 |
 | REQ-V-01 | `reports/POV_REPORT.md` | ADR-008/010 |
 | REQ-V-02 | `reports/figures/` · `reports/track_B_model_comparison.md` | ADR-002 |
-| REQ-P-01 | `docs/RESEARCH_PROTOCOL.md` §P0 | RP §H-P0 |
-| REQ-P-02 | `docs/RESEARCH_PROTOCOL.md` §E.1 | RP §E.1 |
-| REQ-P-03 | `docs/RESEARCH_PROTOCOL.md` §E.3 | RP §E.3 |
-| REQ-P-04 | `docs/RESEARCH_PROTOCOL.md` §F | RP §F |
-| REQ-P-05 | `docs/RESEARCH_PROTOCOL.md` §H-P5 | RP §A′.6 |
-| REQ-P-06 | `docs/RESEARCH_PROTOCOL.md` §C.2, §D | RP §C.2 |
-| REQ-P-07 | `docs/RESEARCH_PROTOCOL.md` §H-P6 | RP §H-P6 |
+| REQ-P-01 | `src/data/injury_label.py` · `tests/test_injury_label.py` | ADR-014 |
+| REQ-P-02 | `docs/rnd/DECISIONS.md` ADR-014 · `src/stats/survival_models.py` | RP §E.1 |
+| REQ-P-03 | `src/stats/survival_models.py` · `tests/test_survival_models.py` · `notebooks/run_injury_inference.py` | RP §E.3 |
+| REQ-P-04 | `docs/rnd/RESEARCH_PROTOCOL.md` §F | RP §F |
+| REQ-P-05 | `docs/rnd/RESEARCH_PROTOCOL.md` §H-P5 | RP §A′.6 |
+| REQ-P-06 | `src/stats/injury_eval.py` · `src/stats/injury_baseline.py` · `tests/test_injury_baseline.py` | RP §C.2 |
+| REQ-P-07 | `docs/rnd/RESEARCH_PROTOCOL.md` §H-P6 | RP §H-P6 |
 
 ---
 
 *본 TRD는 RESEARCH_PROTOCOL의 검정력 제약(독립 onset 43건·EPV≤4)과 정합하며, Stage 8 착수 전 P0(라벨 정의 ADR) 확정을 전제로 한다.*
-*작성: R&D 파이프라인팀 · 근거 문헌 전체: `docs/REFERENCES.md`, `docs/INJURY_PREDICTION_REFERENCES.md`*
+*작성: R&D 파이프라인팀 · 근거 문헌 전체: `docs/standards/REFERENCES.md`, `docs/rnd/INJURY_PREDICTION_REFERENCES.md`*

@@ -1,4 +1,4 @@
-> **문서 ID**: TRK-B-DATASETS · **버전**: v2 · **최종수정**: 2026-05-30 · **상위문서**: [RESEARCH_PROTOCOL.md](../RESEARCH_PROTOCOL.md)
+> **문서 ID**: TRK-B-DATASETS · **버전**: v2 · **최종수정**: 2026-05-30 · **상위문서**: [RESEARCH_PROTOCOL.md](../../RESEARCH_PROTOCOL.md)
 
 # Track B 데이터셋 후보 비교
 
@@ -8,7 +8,7 @@
 
 트랙 B는 **시즌형 load + 설문 구조 데이터**를 이용하여 웰니스(Hooper Index) ~ 부하(ACWR, Monotony) 시차 관계를 분석하는 것이 목적이다. 따라서 다음 조건을 충족하는 공개 데이터셋이 필요하다.
 
-지표 수식 정의는 [METRICS_FORMULAS.md](../METRICS_FORMULAS.md)를 교차참조한다.
+지표 수식 정의는 [METRICS_FORMULAS.md](../../../standards/METRICS_FORMULAS.md)를 교차참조한다.
 
 **필수 컬럼:**
 - sRPE (또는 RPE + session duration)
@@ -26,7 +26,7 @@
 
 ## 1-A. SoccerMon 실측 표본 요약
 
-실제 분석에서 확인된 수치 (출처: [reports/track_B_model_comparison.md](../../reports/track_B_model_comparison.md)):
+실제 분석에서 확인된 수치 (출처: [reports/track_B_model_comparison.md](../../../../reports/track_B_model_comparison.md)):
 
 | 항목 | 실측값 |
 |------|--------|
@@ -170,8 +170,8 @@ flowchart TD
 **한계 인식 및 대응 전략:**
 - AFL ≠ 축구: PoV 보고서에서 "팀 스포츠 일반"으로 프레이밍하고, 종목 특수성은 한계 섹션에 명시
 - 웰니스 항목 매핑: "muscle soreness" → DOMS, "sleep quality" → sleep으로 매핑하고, "mood"는 Hooper Index 산출에서 제외 (별도 보조 분석 가능)
-- stress 척도 정규화: SoccerMon stress는 1–10 스케일 → stress/2.0으로 정규화하여 1–5 척도에 통일 (docs/DECISIONS.md ADR 참조)
-- Hooper 결측 약 32.5%는 NA 유지 원칙 적용; 결측 처리 규칙은 docs/DECISIONS.md에 ADR로 기록
+- stress 척도 정규화: SoccerMon stress는 1–10 스케일 → stress/2.0으로 정규화하여 1–5 척도에 통일 (docs/rnd/DECISIONS.md ADR 참조)
+- Hooper 결측 약 32.5%는 NA 유지 원칙 적용; 결측 처리 규칙은 docs/rnd/DECISIONS.md에 ADR로 기록
 
 **2순위 보조 활용 전략:**
 - 3순위 Nobari et al. 데이터가 일별 기록이 확인되면 축구 종목 보조 데이터로 병행 분석 고려

@@ -1,10 +1,10 @@
-> **문서 ID**: TRK-B-STATS · **버전**: v2 · **최종수정**: 2026-05-30 · **상위문서**: [RESEARCH_PROTOCOL.md](../RESEARCH_PROTOCOL.md)
+> **문서 ID**: TRK-B-STATS · **버전**: v2 · **최종수정**: 2026-05-30 · **상위문서**: [RESEARCH_PROTOCOL.md](../../RESEARCH_PROTOCOL.md)
 
 # 트랙 B 통계 계획
 
 > 목적: 부하 구조(ACWR, Monotony)가 다음날 웰니스(Hooper Index)를 설명하는지 검증
 
-지표 수식 정의는 [METRICS_FORMULAS.md](../METRICS_FORMULAS.md)를 교차참조한다.
+지표 수식 정의는 [METRICS_FORMULAS.md](../../../standards/METRICS_FORMULAS.md)를 교차참조한다.
 
 ---
 
@@ -14,7 +14,7 @@
 Hooper_{t+1} ~ ACWR_t + Monotony_t + (1|athlete)
 ```
 
-수식 교차참조: [METRICS_FORMULAS.md §4 ACWR](../METRICS_FORMULAS.md), [§5 Monotony](../METRICS_FORMULAS.md), [§7 Hooper Index](../METRICS_FORMULAS.md)
+수식 교차참조: [METRICS_FORMULAS.md §4 ACWR](../../../standards/METRICS_FORMULAS.md), [§5 Monotony](../../../standards/METRICS_FORMULAS.md), [§7 Hooper Index](../../../standards/METRICS_FORMULAS.md)
 
 ---
 
@@ -32,7 +32,7 @@ Hooper_{t+1} ~ ACWR_t + Monotony_t + (1|athlete)
 ## 실측 모형 비교 결과
 
 > 데이터: SoccerMon 44명, 16,186 관측 (lag-1 시차 적용)
-> 출처: [reports/track_B_model_comparison.md](../../reports/track_B_model_comparison.md)
+> 출처: [reports/track_B_model_comparison.md](../../../../reports/track_B_model_comparison.md)
 
 | 지표 | M1: OLS | M2: Mixed (ACWR) | M3: Mixed (ACWR+Mono) | M4: Mixed (ACWR+Mono+Strain) |
 |------|:-------:|:----------------:|:---------------------:|:----------------------------:|

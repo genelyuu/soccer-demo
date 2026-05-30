@@ -162,3 +162,37 @@
   - **지표 정의 단일 출처(SSOT)**: 수식 원전은 `METRICS_FORMULAS.md`, track METRICS.md는 교차참조 + Track 특이사항만 기술
 - **근거**: 실험 재현성·추적성(품질 기준)과 부상예측 단계(Stage 8) 실행을 위해 우선순위·검증경로가 명시된 요구사항·운영 문서가 필요하다. `METRICS_FORMULAS.md`의 원자적 포맷과 `DRD_v3.0.md`의 버전 이력·다이어그램 관행을 차용한다.
 - **영향**: `docs/TRD_v1.0.md`·`docs/GOVERNANCE.md`·`docs/PLAYBOOK.md` 신규, `docs/track_A/`·`docs/track_B/` 12문서 상세화/보강, `docs/README.md` 문서 지도·인덱스 추가
+
+
+---
+
+## ADR-014: 부상 onset 라벨 정의 및 동결 (Stage 8 / P0)
+
+- **일자**: 2026-05-30
+- **상태**: 채택 (분석 착수 전 동결 — 사후 변경 시 신규 ADR + 사유)
+- **맥락**: Stage 8 부상예측은 원시 부상 기록(`injury.csv`, 부상-일 162행, 동일일 중복 포함, 선수 15명)을 독립 사건(onset)으로 환산해야 한다. 자가보고 부상은 동일 부상이 여러 날에 걸쳐 중복 기록되므로, 사건 단위 라벨 규칙을 사전에 고정하지 않으면 발생률·검정력 추정이 흔들린다.
+- **결정**:
+  - **onset 정의**: 동일 선수에서 직전 부상-일과의 간격(gap)이 **7일 이상**이면 새로운 독립 onset으로 센다(7일 미만 연속 부상-일은 하나의 에피소드). 첫 부상-일은 항상 onset.
+  - **dedup**: 동일 (선수, 날짜) 중복 행은 1행으로 축약, 중증도는 'major' 우선 보존.
+  - **선행 위험창 라벨**: athlete-day `t`에 대해 `onset_next_k` = [t+1, t+k] 구간 onset 발생 여부(k=1·3·7).
+  - **변수 예산(EPV)**: 독립 onset 43건 → EPV 10 규칙상 **동시 투입 예측변수 ≤ 4개**. 풀 ML 단독 주모형 금지.
+- **근거**: gap≥7 규칙 적용 시 **onset 43건·발생률 1.75/1000 athlete-days**가 산출되며, 이는 동일 SoccerMon 데이터를 분석한 외부 연구(arXiv 2601.19479)의 43건과 정확히 일치한다(외부 검증). 민감도: gap=3은 75건으로 결과가 라벨 정의에 민감함을 확인(RESEARCH_PROTOCOL §I-3) → gap 3/7 민감도 분석을 필수 보고.
+- **영향**: `src/data/injury_label.py`(라벨 빌더), `src/stats/injury_eval.py`(공용 평가), `tests/test_injury_label.py`(onset=43 재현 게이트 7개 테스트), TRD REQ-P-01.
+
+
+---
+
+## ADR-015: 문서 거버넌스 재구성 — flat → 3축 nested (ADR-013 개정)
+
+- **일자**: 2026-05-30
+- **상태**: 채택 (ADR-013의 flat 컨벤션을 본 ADR로 개정)
+- **맥락**: 루트 `docs/`에 연구 문서·요구사항·운영성 문서(마이그레이션·DB 장애)가 평면으로 섞여 17개 파일이 한 레벨에 누적됐다. ADR-013은 단순 flat 구조를 표준화했으나, 부상예측(Stage 8) 격상으로 문서가 늘며 성격별 길찾기가 어려워졌다. 한글 파일명 2건(`데이터명세서_v3.0.md`, `마이그레이션_진행보고서.md`)도 식별자 규칙과 어긋났다.
+- **결정**: [DOC_GOVERNANCE_PROPOSAL.md](../DOC_GOVERNANCE_PROPOSAL.md)의 권장안대로 **3축**으로 재구성한다.
+  - **`docs/rnd/`** = 연구·요구·통제·실행(RESEARCH_PROTOCOL·TRD·GOVERNANCE·PLAYBOOK·DECISIONS·INJURY_PREDICTION_REFERENCES), 하위 `requirements/`(DRD·DATA_SPEC)·`tracks/`(track_A·B).
+  - **`docs/standards/`** = 공통 기준 SSOT(METRICS_FORMULAS·DATA_SCHEMA_MAPPING·REFERENCES).
+  - **`ops/`**(최상위) = 운영성 문서(migration·incidents). R&D와 분리.
+  - **파일명 규칙**: 기존 영문명 유지, 한글 2건만 영문화(`DATA_SPEC_v3.0.md`, `migration_progress_report.md`). 번호 프리픽스(`01_`) 미채택 — 읽는 순서는 `docs/README` 인덱스가 표현.
+  - **링크 무결성 게이트**: 이동에 따른 마크다운 상대링크(약 125건)·코드 docstring(`src/*.py` 6건)·루트 `README.md`·`CLAUDE.md` 참조를 상대경로 재계산으로 일괄 재작성하고 "깨진 링크 0"을 완료 조건으로 둔다.
+  - **허브 + per-folder README**: `docs/README`(허브) + `rnd`·`rnd/requirements`·`standards`·`ops` 로컬 인덱스 신설.
+- **근거**: 성격(연구/기준/운영)별 분리로 탐색성·추적성을 높이고, SSOT(지표 수식은 `standards/`에서만 정의) 원칙을 구조로 강제한다. flat 대비 깊이가 늘지만 허브·로컬 README로 길찾기를 보장한다.
+- **영향**: `docs/rnd/`·`docs/standards/`·`ops/` 신설, 16개 파일 이동(한글 2건 개명 포함) + 미커밋 신규 `INJURY_PREDICTION.md` 이동, 4개 README 신설/개편, `CLAUDE.md` 디렉토리 구조·`DECISIONS` 경로 갱신. 링크 체커 broken=0, `pytest` 영향 없음 확인.

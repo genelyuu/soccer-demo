@@ -2,7 +2,7 @@
 Monotony, Strain, sRPE, Hooper Index 지표 산출 모듈.
 
 Foster(1998) 기반의 훈련 단조성/부담 지표 및 주관적 부하/웰니스 지표를 계산한다.
-수식 정의: docs/METRICS_FORMULAS.md 참조.
+수식 정의: docs/standards/METRICS_FORMULAS.md 참조.
 """
 
 import numpy as np

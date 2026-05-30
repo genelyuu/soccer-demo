@@ -112,8 +112,8 @@
 |------|------|-----------|
 | `00001_initial_schema.sql` | 기존 스키마 컨벤션 기준 | RLS 패턴 비교, FK 전략 대조 |
 | `00002_rls_write_policies.sql` | 기존 RLS 패턴 기준 | 역할 기반 정책 참조, DELETE 정책 존재 확인 |
-| `docs/data_migration.md` | 설계 의도 및 DDL 원안 | **v2.0 컴플라이언스 감사 기준** |
-| `docs/DECISIONS.md` | ADR-001 ~ ADR-011 | 지표 정의·결측 처리 근거 |
+| `ops/migration/data_migration.md` | 설계 의도 및 DDL 원안 | **v2.0 컴플라이언스 감사 기준** |
+| `docs/rnd/DECISIONS.md` | ADR-001 ~ ADR-011 | 지표 정의·결측 처리 근거 |
 | `CLAUDE.md` | 품질 기준 | 재현성·추적성 검증 기준 |
 
 ### 2.3 리뷰 방법론 (v2.0 확장)
@@ -1857,10 +1857,10 @@ COMMIT;
 | 훈련·웰니스 스키마 | `soccer/supabase/migrations/00003_training_wellness_schema.sql` |
 | ETL 뷰 | `soccer/supabase/migrations/00004_etl_views.sql` |
 | 시드 데이터 | `soccer/supabase/seed.sql` |
-| 통합 설계서 | `soccer_rnd/docs/data_migration.md` |
-| 아키텍처 결정 | `soccer_rnd/docs/DECISIONS.md` (ADR-001 ~ ADR-011) |
-| 버그 리포트 원본 | `soccer_rnd/docs/db_bug_report.md` |
-| DRD v1.0 | `soccer_rnd/docs/DRD_v1.0.md` |
+| 통합 설계서 | `soccer_rnd/ops/migration/data_migration.md` |
+| 아키텍처 결정 | `soccer_rnd/docs/rnd/DECISIONS.md` (ADR-001 ~ ADR-011) |
+| 버그 리포트 원본 | `soccer_rnd/ops/incidents/db_bug_report.md` |
+| DRD v1.0 | `soccer_rnd/docs/rnd/requirements/DRD_v1.0.md` |
 | 품질 기준 | `soccer_rnd/CLAUDE.md` |
 
 ### 19.3 관련 ADR

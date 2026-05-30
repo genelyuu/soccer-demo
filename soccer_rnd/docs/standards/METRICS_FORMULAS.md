@@ -464,4 +464,4 @@ EWMA(t) = α × Value(t) + (1 - α) × EWMA(t-1)
 
 *마지막 갱신: 2026-02-10*
 *작성: research-librarian@soccer-rnd*
-*근거 문헌 전체 목록: [REFERENCES.md](./REFERENCES.md)*
+*근거 문헌 전체 목록: [REFERENCES.md](REFERENCES.md)*

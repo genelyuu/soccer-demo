@@ -1,4 +1,4 @@
-> **문서 ID**: TRK-B-OUTPUTS · **버전**: v1.0 · **최종수정**: 2026-05-30 · **상위문서**: [RESEARCH_PROTOCOL.md](../RESEARCH_PROTOCOL.md) · **담당영역**: Track B (부하+설문, SoccerMon)
+> **문서 ID**: TRK-B-OUTPUTS · **버전**: v1.0 · **최종수정**: 2026-05-30 · **상위문서**: [RESEARCH_PROTOCOL.md](../../RESEARCH_PROTOCOL.md) · **담당영역**: Track B (부하+설문, SoccerMon)
 
 # Track B 기대 산출물 명세서
 
@@ -324,11 +324,11 @@ jupyter nbconvert --to notebook --execute notebooks/track_B_real.ipynb \
 
 | 문서 | 경로 | 역할 |
 |------|------|------|
-| 지표 명세서 | `docs/track_B/METRICS.md` | 지표 정의·함수·결측 규칙 |
-| 통계 계획 | `docs/track_B/STATS_PLAN.md` | M1~M4 모형 설계·평가 기준 |
-| 데이터셋 명세 | `docs/track_B/DATASETS.md` | SoccerMon 취득·전처리 절차 |
+| 지표 명세서 | `docs/rnd/tracks/track_B/METRICS.md` | 지표 정의·함수·결측 규칙 |
+| 통계 계획 | `docs/rnd/tracks/track_B/STATS_PLAN.md` | M1~M4 모형 설계·평가 기준 |
+| 데이터셋 명세 | `docs/rnd/tracks/track_B/DATASETS.md` | SoccerMon 취득·전처리 절차 |
 | 모형 비교 보고서 | `reports/track_B_model_comparison.md` | 실제 분석 결과 및 수치 |
-| 수식 원문 | `docs/METRICS_FORMULAS.md` | sRPE~Hooper Index 모든 공식 |
+| 수식 원문 | `docs/standards/METRICS_FORMULAS.md` | sRPE~Hooper Index 모든 공식 |
 
 ---
 

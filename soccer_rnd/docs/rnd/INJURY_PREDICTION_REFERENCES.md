@@ -1,8 +1,8 @@
 # 부상 예측 — Reference 데이터셋 및 문헌 조사
 
 > **작성**: 2026-05-30 | **언어 정책**: 한국어(ko-KR)
-> **목적**: [`docs/RESEARCH_PROTOCOL.md`](RESEARCH_PROTOCOL.md)의 부상 예측 재설계를 뒷받침하는 **공개 데이터셋**과 **핵심 문헌**을 정리한다.
-> **범위 구분**: 부하/HRV/웰니스 *지표*의 학술 근거는 [`docs/REFERENCES.md`](REFERENCES.md)에 있다. 본 문서는 **부상 예측(injury prediction)** 도메인 전용이다.
+> **목적**: [`docs/rnd/RESEARCH_PROTOCOL.md`](RESEARCH_PROTOCOL.md)의 부상 예측 재설계를 뒷받침하는 **공개 데이터셋**과 **핵심 문헌**을 정리한다.
+> **범위 구분**: 부하/HRV/웰니스 *지표*의 학술 근거는 [`docs/standards/REFERENCES.md`](../standards/REFERENCES.md)에 있다. 본 문서는 **부상 예측(injury prediction)** 도메인 전용이다.
 
 ---
 
@@ -78,7 +78,7 @@
 
 ### 2.4 ACWR–부상 위험 (교차 참조)
 
-ACWR과 부상 위험의 핵심 문헌(Hulin 2014, Blanch & Gabbett 2016, Gabbett 2016, Williams 2017, Murray 2017)과 그 비판(Lolli 2019, Impellizzeri 2020, Wang 2020, Carey 2018 — discretization)은 [`docs/REFERENCES.md`](REFERENCES.md) §2에 정리되어 있다. **요지**: ACWR은 수학적 커플링·이산화 편향 비판이 있으므로, 본 연구는 ACWR을 *단독 정답*이 아닌 *벤치마크 룰(P2)*로 다루고 다지표·연속 모형과 비교한다.
+ACWR과 부상 위험의 핵심 문헌(Hulin 2014, Blanch & Gabbett 2016, Gabbett 2016, Williams 2017, Murray 2017)과 그 비판(Lolli 2019, Impellizzeri 2020, Wang 2020, Carey 2018 — discretization)은 [`docs/standards/REFERENCES.md`](../standards/REFERENCES.md) §2에 정리되어 있다. **요지**: ACWR은 수학적 커플링·이산화 편향 비판이 있으므로, 본 연구는 ACWR을 *단독 정답*이 아닌 *벤치마크 룰(P2)*로 다루고 다지표·연속 모형과 비교한다.
 
 ---
 

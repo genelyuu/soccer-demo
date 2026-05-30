@@ -95,8 +95,8 @@
 |------|------|
 | `00001_initial_schema.sql` | 기존 스키마 컨벤션 기준 |
 | `00002_rls_write_policies.sql` | 기존 RLS 패턴 기준 |
-| `docs/data_migration.md` | 설계 의도 및 DDL 원안 |
-| `docs/DECISIONS.md` | ADR-001 ~ ADR-011 |
+| `ops/migration/data_migration.md` | 설계 의도 및 DDL 원안 |
+| `docs/rnd/DECISIONS.md` | ADR-001 ~ ADR-011 |
 | `CLAUDE.md` | 품질 기준 (재현성, 추적성, reviewer-safe 톤) |
 
 ### 2.3 리뷰 방법론
@@ -595,7 +595,7 @@ DBA와 DE의 토론 결과 다음 기준을 제안한다:
 | PostgreSQL 제약 | ADD VALUE 가능, 삭제 불가 | 자유로운 변경 |
 | **적용 예** | session_type, match_status | position (포지션 신설 가능) |
 
-이 기준을 ADR-012로 `docs/DECISIONS.md`에 추가할 것을 권장한다.
+이 기준을 ADR-012로 `docs/rnd/DECISIONS.md`에 추가할 것을 권장한다.
 
 ### 9.3 B-16/B-17 상세: 명명 매핑 전략
 
@@ -1075,12 +1075,12 @@ CREATE TRIGGER trg_sessions_updated
 | 훈련·웰니스 스키마 | `soccer/supabase/migrations/00003_training_wellness_schema.sql` |
 | ETL 뷰 | `soccer/supabase/migrations/00004_etl_views.sql` |
 | 시드 데이터 | `soccer/supabase/seed.sql` |
-| 통합 설계서 | `soccer_rnd/docs/data_migration.md` |
-| 아키텍처 결정 | `soccer_rnd/docs/DECISIONS.md` (ADR-001 ~ ADR-011) |
-| 버그 리포트 원본 | `soccer_rnd/docs/db_bug_report.md` |
+| 통합 설계서 | `soccer_rnd/ops/migration/data_migration.md` |
+| 아키텍처 결정 | `soccer_rnd/docs/rnd/DECISIONS.md` (ADR-001 ~ ADR-011) |
+| 버그 리포트 원본 | `soccer_rnd/ops/incidents/db_bug_report.md` |
 | 품질 기준 | `soccer_rnd/CLAUDE.md` |
-| 스키마 매핑 | `soccer_rnd/docs/DATA_SCHEMA_MAPPING.md` |
-| 지표 수식 | `soccer_rnd/docs/METRICS_FORMULAS.md` |
+| 스키마 매핑 | `soccer_rnd/docs/standards/DATA_SCHEMA_MAPPING.md` |
+| 지표 수식 | `soccer_rnd/docs/standards/METRICS_FORMULAS.md` |
 
 ### 15.3 관련 ADR
 

@@ -1,8 +1,8 @@
 # 실험 운영 거버넌스 문서 — soccer_rnd R&D 저장소
 
 > **버전**: v1.0 | **작성일**: 2026-05-30 | **언어 정책**: 한국어(ko-KR), 코드 식별자·파일명·약어만 영문
-> **위치**: `docs/GOVERNANCE.md`
-> **연관 문서**: [`docs/RESEARCH_PROTOCOL.md`](RESEARCH_PROTOCOL.md) · [`docs/DECISIONS.md`](DECISIONS.md) · [`docs/REFERENCES.md`](REFERENCES.md) · [`README.md`](../README.md)
+> **위치**: `docs/rnd/GOVERNANCE.md`
+> **연관 문서**: [`docs/rnd/RESEARCH_PROTOCOL.md`](RESEARCH_PROTOCOL.md) · [`docs/rnd/DECISIONS.md`](DECISIONS.md) · [`docs/standards/REFERENCES.md`](../standards/REFERENCES.md) · [`README.md`](../../README.md)
 
 ---
 
@@ -73,7 +73,7 @@ flowchart TD
     AN["분석자(AN)<br/>코드·지표·노트북 산출"]
     RV["검토자(RV)<br/>방법론·코드 리뷰"]
     RE["재현자(RE)<br/>독립 재현 검증"]
-    ADR["ADR 저장소<br/>docs/DECISIONS.md"]
+    ADR["ADR 저장소<br/>docs/rnd/DECISIONS.md"]
     GATE["게이트 승인<br/>P0 → P6"]
 
     RL -->|"연구 방향 지시"| AN
@@ -160,7 +160,7 @@ flowchart LR
 
 - 게이트를 통과하지 않은 단계의 코드·산출물은 `main` 브랜치에 병합하지 않는다.
 - FAIL 시 원인을 ADR에 기록한 뒤 수정하고, 동일 게이트를 재통과해야 한다.
-- 게이트 통과 사실은 `docs/DECISIONS.md`에 날짜·담당자·산출물 경로를 기록한다.
+- 게이트 통과 사실은 `docs/rnd/DECISIONS.md`에 날짜·담당자·산출물 경로를 기록한다.
 
 ---
 
@@ -199,7 +199,7 @@ flowchart TD
     DRAFT["신규 ADR 초안 작성<br/>(변경 사유·전후 비교·영향 범위)"]
     REVIEW["검토자(RV) 검토<br/>+ 연구책임자(RL) 승인"]
     REJECT{"승인 여부?"}
-    REGISTER["ADR 등록<br/>docs/DECISIONS.md"]
+    REGISTER["ADR 등록<br/>docs/rnd/DECISIONS.md"]
     PARALLEL["변경 전·후 분석<br/>병렬 실행 및 비교 보고"]
     REPORT["최종 보고서에<br/>변경 사실 명시"]
     DISCARD["변경 요청 기각<br/>(기존 정의 유지)"]
@@ -272,7 +272,7 @@ SoccerMon 웰니스 결측 32%가 MNAR(Missing Not At Random)임을 가정할 �
 ### 6.3 data/raw 비-git 규칙
 
 - `data/raw/` 전체는 `.gitignore`에 등록되어 있으며, 어떠한 원본 데이터 파일도 git 이력에 포함하지 않는다.
-- 데이터 취득 방법은 `docs/DATA_SCHEMA_MAPPING.md`에 URL·절차를 기록하여 재현 가능성을 보장한다.
+- 데이터 취득 방법은 `docs/standards/DATA_SCHEMA_MAPPING.md`에 URL·절차를 기록하여 재현 가능성을 보장한다.
 - `data/processed/`의 전처리 결과물도 원칙적으로 git에 포함하지 않는다. 예외적 포함 시 ADR로 사유를 기록한다.
 
 ---
@@ -426,7 +426,7 @@ SoccerMon 웰니스 결측 32%가 MNAR(Missing Not At Random)임을 가정할 �
 ### 11.3 ADR 연동 원칙
 
 - 분석 설계에 영향을 미치는 문서 변경은 반드시 ADR 신규 등록 또는 기존 ADR 참조와 함께 이루어진다.
-- GOVERNANCE.md 자체의 버전업이 ADR 변경을 수반할 경우, `docs/DECISIONS.md`에 연동 ADR를 등록한다.
+- GOVERNANCE.md 자체의 버전업이 ADR 변경을 수반할 경우, `docs/rnd/DECISIONS.md`에 연동 ADR를 등록한다.
 - 문서 간 버전 불일치(예: RESEARCH_PROTOCOL.md v1.0과 GOVERNANCE.md v2.0 간 충돌)가 발생하면 ADR로 우선순위를 명시한다.
 
 ---

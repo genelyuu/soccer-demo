@@ -24,15 +24,15 @@
 
 | 단계 | 내용 | 핵심 산출물 / 코드 | 상태 |
 |---|---|---|---|
-| **0. 설계·데이터셋 선정** | 연구질문·프로토콜·지표 정의 확정, 데이터셋 후보 비교 | [`docs/track_A/PROTOCOL.md`](docs/track_A/PROTOCOL.md) · [`docs/track_B/PROTOCOL.md`](docs/track_B/PROTOCOL.md) · [`docs/track_A/DATASETS.md`](docs/track_A/DATASETS.md) · [`docs/REFERENCES.md`](docs/REFERENCES.md) · [`docs/DECISIONS.md`](docs/DECISIONS.md) | ✅ 완료 |
+| **0. 설계·데이터셋 선정** | 연구질문·프로토콜·지표 정의 확정, 데이터셋 후보 비교 | [`docs/rnd/tracks/track_A/PROTOCOL.md`](docs/rnd/tracks/track_A/PROTOCOL.md) · [`docs/rnd/tracks/track_B/PROTOCOL.md`](docs/rnd/tracks/track_B/PROTOCOL.md) · [`docs/rnd/tracks/track_A/DATASETS.md`](docs/rnd/tracks/track_A/DATASETS.md) · [`docs/standards/REFERENCES.md`](docs/standards/REFERENCES.md) · [`docs/rnd/DECISIONS.md`](docs/rnd/DECISIONS.md) | ✅ 완료 |
 | **1. 데이터 취득·전처리** | RR 품질 점검·이상치 필터, Wide→Long 변환, 활성 시즌 필터 | [`src/data/`](src/data/) · [`data/raw/`](data/raw/) · [`data/processed/`](data/processed/) | ✅ 완료 |
-| **2. 지표 산출** | ATL/CTL/ACWR(Rolling·EWMA), Monotony/Strain, HRV(rMSSD/SDNN/ln) | [`src/metrics/`](src/metrics/) · [`docs/METRICS_FORMULAS.md`](docs/METRICS_FORMULAS.md) | ✅ 완료 |
+| **2. 지표 산출** | ATL/CTL/ACWR(Rolling·EWMA), Monotony/Strain, HRV(rMSSD/SDNN/ln) | [`src/metrics/`](src/metrics/) · [`docs/standards/METRICS_FORMULAS.md`](docs/standards/METRICS_FORMULAS.md) | ✅ 완료 |
 | **3. EDA** | 분포·결측·시차 탐색, 실측 기술통계 | [`notebooks/track_A_eda.ipynb`](notebooks/track_A_eda.ipynb) · [`notebooks/track_B_eda.ipynb`](notebooks/track_B_eda.ipynb) · [`src/eda/`](src/eda/) · [`scripts/eda_protocol.py`](scripts/eda_protocol.py) | ✅ 완료 |
 | **4. 통계 모형** | OLS→랜덤절편→랜덤기울기 순차 비교, ICC, Cohen's f², VIF, 다중시차, LOSO | [`notebooks/track_A_real.ipynb`](notebooks/track_A_real.ipynb) · [`notebooks/track_B_real.ipynb`](notebooks/track_B_real.ipynb) · [`src/stats/`](src/stats/) · [`reports/track_A_model_comparison.md`](reports/track_A_model_comparison.md) · [`reports/track_B_model_comparison.md`](reports/track_B_model_comparison.md) | ✅ 완료 |
 | **5. 통합 가설 검증** | H1~H4를 합성 DGP로 PASS/FAIL 판정 (**9/13 PASS**) | [`notebooks/integrated_hypothesis.ipynb`](notebooks/integrated_hypothesis.ipynb) · [`notebooks/run_integrated_hypothesis.py`](notebooks/run_integrated_hypothesis.py) · [`reports/integrated_hypothesis_report.md`](reports/integrated_hypothesis_report.md) | ✅ 완료 |
 | **6. 합성 데이터 검증** | 참값(β, σ) 복원 sanity check, 파이프라인 사전 검증 | [`notebooks/run_synthetic_analysis.py`](notebooks/run_synthetic_analysis.py) · [`reports/track_A_model_comparison_synthetic.md`](reports/track_A_model_comparison_synthetic.md) · [`tests/test_synthetic_integrated.py`](tests/test_synthetic_integrated.py) | ✅ 완료 |
 | **7. 종합 보고** | 실데이터 결과·효과크기·해석을 PoV 보고서로 통합 | [`reports/POV_REPORT.md`](reports/POV_REPORT.md) | ✅ 완료 |
-| **8. (계획) 부상 예측 격상** | 연관성 → 예측·인과·임상효용 격상. 부상 onset 라벨 기반 생존모형·case-crossover·decision-curve | [`docs/RESEARCH_PROTOCOL.md`](docs/RESEARCH_PROTOCOL.md) · [`docs/INJURY_PREDICTION_REFERENCES.md`](docs/INJURY_PREDICTION_REFERENCES.md) | 🔵 프로토콜 확정 |
+| **8. (계획) 부상 예측 격상** | 연관성 → 예측·인과·임상효용 격상. 부상 onset 라벨 기반 생존모형·case-crossover·decision-curve | [`docs/rnd/RESEARCH_PROTOCOL.md`](docs/rnd/RESEARCH_PROTOCOL.md) · [`docs/rnd/INJURY_PREDICTION_REFERENCES.md`](docs/rnd/INJURY_PREDICTION_REFERENCES.md) | 🔵 프로토콜 확정 |
 
 > **노트북 미리보기 (nbviewer)** — GitHub 자체 렌더가 느리거나 실패할 경우 아래 nbviewer 링크로 안정적으로 확인할 수 있다.
 > [track_A_eda](https://nbviewer.org/github/genelyuu/soccer-demo/blob/main/soccer_rnd/notebooks/track_A_eda.ipynb) ·
@@ -132,7 +132,7 @@ jupyter notebook
 
 - **Track A**: PhysioNet ACTES — `data/raw/track_A/LICENSE.txt` 참조.
 - **Track B**: SoccerMon (Midoglu et al., 2024, *Nature Scientific Data*) — Zenodo, CC BY 4.0.
-- 지표·방법론의 학술 근거: [`docs/REFERENCES.md`](docs/REFERENCES.md) (30편) · [`docs/INJURY_PREDICTION_REFERENCES.md`](docs/INJURY_PREDICTION_REFERENCES.md).
+- 지표·방법론의 학술 근거: [`docs/standards/REFERENCES.md`](docs/standards/REFERENCES.md) (30편) · [`docs/rnd/INJURY_PREDICTION_REFERENCES.md`](docs/rnd/INJURY_PREDICTION_REFERENCES.md).
 
 > 본 분석은 AI 코치 서비스 ML 파이프라인 R&D를 공개 데이터셋으로 재현한 PoV 결과물이다.
 > 프로젝트 상세는 [`docs/README.md`](docs/README.md) 참조.

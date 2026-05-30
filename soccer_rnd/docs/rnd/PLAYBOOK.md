@@ -156,7 +156,7 @@ jupyter notebook
 
 - [ ] Track A EDA: 분포·결측·시차 탐색 완료 (`notebooks/track_A_eda.ipynb`)
 - [ ] Track B EDA: 주간 부하 패턴·ACWR 급등 vs Hooper 변화 확인 (`notebooks/track_B_eda.ipynb`)
-- [ ] 이상값 및 결측 패턴 문서화 (`docs/DECISIONS.md` ADR 업데이트)
+- [ ] 이상값 및 결측 패턴 문서화 (`docs/rnd/DECISIONS.md` ADR 업데이트)
 
 ---
 
@@ -198,7 +198,7 @@ python notebooks/run_track_B.py
 #### 진입 전제조건
 
 - [ ] Stage 4 완료, 두 트랙 모형 결과 확정
-- [ ] H1~H4 가설 명세 확인 (`docs/DECISIONS.md`)
+- [ ] H1~H4 가설 명세 확인 (`docs/rnd/DECISIONS.md`)
 
 #### 실행 명령
 
@@ -356,7 +356,7 @@ python -m pytest tests/test_cross_validation.py -v
 | 증상 | 원인 | 조치 |
 |---|---|---|
 | `fit_random_slope()` 반환값이 `None` | 랜덤기울기 수렴 실패 — 표본 수 부족 또는 변수 스케일 문제 | `src/stats/mixed_effects.py` `fit_random_slope()` 는 수렴 실패 시 경고 출력 후 `None` 반환. `extract_model_metrics()` 에 `None` 전달 시 `np.nan` 딕셔너리 반환. 랜덤절편 모형(`fit_random_intercept()`)을 최종 채택 모형으로 사용 |
-| 데이터 결측 과다 (>30%) | 원본 데이터 품질 또는 시즌 기간 필터 이슈 | 결측 패턴을 MCAR/MAR/MNAR 구분 (`H4` 분석 참조). 결측은 원칙적으로 NA 유지. 분석 목적상 필요 시 `docs/DECISIONS.md`에 명시적 규칙 ADR로 등록 |
+| 데이터 결측 과다 (>30%) | 원본 데이터 품질 또는 시즌 기간 필터 이슈 | 결측 패턴을 MCAR/MAR/MNAR 구분 (`H4` 분석 참조). 결측은 원칙적으로 NA 유지. 분석 목적상 필요 시 `docs/rnd/DECISIONS.md`에 명시적 규칙 ADR로 등록 |
 | 재현 불일치 — 동일 입력에서 다른 수치 | `np.random.seed()` 미고정 또는 버전 불일치 | `run_track_A.py`, `run_track_B.py`, `run_integrated_hypothesis.py`, `run_synthetic_analysis.py` 모두 `np.random.seed(42)` 고정 확인. 재현 환경(Python 3.13, numpy, pandas 2.3, statsmodels 0.14, scipy 1.16, scikit-learn 1.7) 일치 여부 `pip list` 로 검증 |
 | 한글 폰트 깨짐 (그림에 □□□ 출력) | matplotlib 기본 폰트가 한글 미지원 | `src/viz/fonts.py`의 `apply_korean_font()` 함수 호출 여부 확인. `run_track_A.py`, `run_integrated_hypothesis.py` 에서 `from src.viz.fonts import apply_korean_font` 후 `apply_korean_font()` 실행. Noto Sans KR 설치 여부 확인 |
 | 노트북 GitHub 렌더 실패 | `.ipynb` 대형 셀 출력 또는 nbformat 스키마 위반 | `nbviewer` 링크 사용: `https://nbviewer.org/github/genelyuu/soccer-demo/blob/main/soccer_rnd/notebooks/<파일명>.ipynb`. nbformat 스키마 위반 시 노트북 재저장(`jupyter nbconvert --to notebook --inplace`) |
@@ -373,7 +373,7 @@ python -m pytest tests/test_cross_validation.py -v
 - [ ] `docs/track_X/DATASETS.md` — 데이터셋 출처·라이선스·취득 방법 기재
 - [ ] `docs/track_X/EDA_PLAN.md` — EDA 흐름도 및 탐색 항목 정의
 - [ ] `docs/track_X/STATS_PLAN.md` — 통계 모형 공식·비교 전략 명세
-- [ ] `docs/DECISIONS.md` — 신규 ADR 등록 (지표 윈도우, 결과변수, 결측 처리 규칙)
+- [ ] `docs/rnd/DECISIONS.md` — 신규 ADR 등록 (지표 윈도우, 결과변수, 결측 처리 규칙)
 - [ ] `reports/track_X_model_comparison.md` — 모형 비교표 템플릿 생성
 
 ### 코드 (src)
@@ -393,7 +393,7 @@ python -m pytest tests/test_cross_validation.py -v
 
 ### ADR 동반
 
-- [ ] `docs/DECISIONS.md` 에 결정 근거 ADR 형식으로 기록 (Author, Year 인용 포함)
+- [ ] `docs/rnd/DECISIONS.md` 에 결정 근거 ADR 형식으로 기록 (Author, Year 인용 포함)
 - [ ] 기존 트랙과의 지표 정의 충돌 여부 검토
 
 ---
@@ -429,10 +429,10 @@ soccer_rnd/
 
 ## 8. 참고 문서
 
-- 지표 정의 상세: `docs/METRICS_FORMULAS.md`
-- 결정 기록(ADR): `docs/DECISIONS.md`
-- 연구 프로토콜: `docs/RESEARCH_PROTOCOL.md`
-- 부상 예측 문헌: `docs/INJURY_PREDICTION_REFERENCES.md`
-- 학술 참고문헌: `docs/REFERENCES.md`
-- Track A 데이터셋: `docs/track_A/DATASETS.md`
-- Track B 데이터셋: `docs/track_B/`
+- 지표 정의 상세: `docs/standards/METRICS_FORMULAS.md`
+- 결정 기록(ADR): `docs/rnd/DECISIONS.md`
+- 연구 프로토콜: `docs/rnd/RESEARCH_PROTOCOL.md`
+- 부상 예측 문헌: `docs/rnd/INJURY_PREDICTION_REFERENCES.md`
+- 학술 참고문헌: `docs/standards/REFERENCES.md`
+- Track A 데이터셋: `docs/rnd/tracks/track_A/DATASETS.md`
+- Track B 데이터셋: `docs/rnd/tracks/track_B/`

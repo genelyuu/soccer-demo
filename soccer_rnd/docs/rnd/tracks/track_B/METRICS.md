@@ -1,9 +1,9 @@
-> **문서 ID**: TRK-B-METRICS · **버전**: v1.0 · **최종수정**: 2026-05-30 · **상위문서**: [RESEARCH_PROTOCOL.md](../RESEARCH_PROTOCOL.md) · **담당영역**: Track B (부하+설문, SoccerMon)
+> **문서 ID**: TRK-B-METRICS · **버전**: v1.0 · **최종수정**: 2026-05-30 · **상위문서**: [RESEARCH_PROTOCOL.md](../../RESEARCH_PROTOCOL.md) · **담당영역**: Track B (부하+설문, SoccerMon)
 
 # Track B 지표 명세서
 
 본 문서는 Track B 분석에서 사용하는 모든 지표의 정의, 산출 함수, 결측 규칙, 주의사항을 기술한다.
-수식 원문 및 파라미터 기본값은 [../METRICS_FORMULAS.md](../METRICS_FORMULAS.md)를 교차참조하며, 본 문서에는 Track B 특이사항만 기술한다.
+수식 원문 및 파라미터 기본값은 [../METRICS_FORMULAS.md](../../../standards/METRICS_FORMULAS.md)를 교차참조하며, 본 문서에는 Track B 특이사항만 기술한다.
 
 ---
 
@@ -11,18 +11,18 @@
 
 | 지표 | 약어 | 유형 | 산출 함수 | 수식 교차참조 |
 |------|------|------|-----------|---------------|
-| Session RPE | sRPE | 내적 부하 | `srpe()` | [§1 sRPE](../METRICS_FORMULAS.md#1-srpe-session-rpe) |
+| Session RPE | sRPE | 내적 부하 | `srpe()` | [§1 sRPE](../../../standards/METRICS_FORMULAS.md#1-srpe-session-rpe) |
 | 피로도 | fatigue | 설문 구성 | — (원시값) | — |
 | 스트레스 | stress | 설문 구성 | — (정규화 필요) | — |
 | 근육통 | soreness / DOMS | 설문 구성 | — (원시값) | — |
 | 수면 질 | sleep_quality | 설문 구성 | — (원시값) | — |
-| Hooper Index | HI | 웰니스 종합 | `hooper_index()` | [§7 Hooper Index](../METRICS_FORMULAS.md#7-hooper-index) |
-| 일별 훈련 부하 | daily_load | 부하 원시값 | — (SoccerMon 제공) | [§1 sRPE](../METRICS_FORMULAS.md#1-srpe-session-rpe) |
-| 급성 훈련 부하 | ATL | 단기 부하 | 내부 산출 | [§2 ATL](../METRICS_FORMULAS.md#2-atl-acute-training-load) |
-| 만성 훈련 부하 | CTL | 장기 부하 | 내부 산출 | [§3 CTL](../METRICS_FORMULAS.md#3-ctl-chronic-training-load) |
-| 급성:만성 부하 비율 | ACWR | 부하 비율 | 내부 산출 | [§4 ACWR](../METRICS_FORMULAS.md#4-acwr-acutechronic-workload-ratio) |
-| 훈련 단조성 | Monotony | 부하 패턴 | `monotony()` | [§5 Monotony](../METRICS_FORMULAS.md#5-monotony) |
-| 훈련 부담 | Strain | 부하 복합 | `strain()` | [§6 Strain](../METRICS_FORMULAS.md#6-strain) |
+| Hooper Index | HI | 웰니스 종합 | `hooper_index()` | [§7 Hooper Index](../../../standards/METRICS_FORMULAS.md#7-hooper-index) |
+| 일별 훈련 부하 | daily_load | 부하 원시값 | — (SoccerMon 제공) | [§1 sRPE](../../../standards/METRICS_FORMULAS.md#1-srpe-session-rpe) |
+| 급성 훈련 부하 | ATL | 단기 부하 | 내부 산출 | [§2 ATL](../../../standards/METRICS_FORMULAS.md#2-atl-acute-training-load) |
+| 만성 훈련 부하 | CTL | 장기 부하 | 내부 산출 | [§3 CTL](../../../standards/METRICS_FORMULAS.md#3-ctl-chronic-training-load) |
+| 급성:만성 부하 비율 | ACWR | 부하 비율 | 내부 산출 | [§4 ACWR](../../../standards/METRICS_FORMULAS.md#4-acwr-acutechronic-workload-ratio) |
+| 훈련 단조성 | Monotony | 부하 패턴 | `monotony()` | [§5 Monotony](../../../standards/METRICS_FORMULAS.md#5-monotony) |
+| 훈련 부담 | Strain | 부하 복합 | `strain()` | [§6 Strain](../../../standards/METRICS_FORMULAS.md#6-strain) |
 
 ---
 
@@ -31,7 +31,7 @@
 ### 정의 요약
 
 선수가 체감하는 훈련 강도(RPE)에 훈련 시간(분)을 곱한 내적 부하 지표.
-수식 원문: [../METRICS_FORMULAS.md §1](../METRICS_FORMULAS.md#1-srpe-session-rpe)
+수식 원문: [../METRICS_FORMULAS.md §1](../../../standards/METRICS_FORMULAS.md#1-srpe-session-rpe)
 
 ```
 sRPE = RPE × Duration(min)
@@ -175,7 +175,7 @@ SoccerMon이 사전 산출하여 제공하는 일별 내적 훈련 부하. sRPE�
 
 ## 6. ATL / CTL
 
-수식 원문: [../METRICS_FORMULAS.md §2-§3](../METRICS_FORMULAS.md#2-atl-acute-training-load)
+수식 원문: [../METRICS_FORMULAS.md §2-§3](../../../standards/METRICS_FORMULAS.md#2-atl-acute-training-load)
 
 ### Track B 적용 파라미터
 
@@ -195,7 +195,7 @@ SoccerMon은 자체 산출된 `acwr` 컬럼을 제공하므로, 현 분석에서
 
 ## 7. ACWR (Acute:Chronic Workload Ratio)
 
-수식 원문: [../METRICS_FORMULAS.md §4](../METRICS_FORMULAS.md#4-acwr-acutechronic-workload-ratio)
+수식 원문: [../METRICS_FORMULAS.md §4](../../../standards/METRICS_FORMULAS.md#4-acwr-acutechronic-workload-ratio)
 
 ### Track B 실측 기술통계
 
@@ -227,7 +227,7 @@ Hooper_{t+1} ~ ACWR_t + Monotony_t + Strain_t + (1|athlete)   # M4
 
 ## 8. Monotony
 
-수식 원문: [../METRICS_FORMULAS.md §5](../METRICS_FORMULAS.md#5-monotony)
+수식 원문: [../METRICS_FORMULAS.md §5](../../../standards/METRICS_FORMULAS.md#5-monotony)
 
 ### 산출 함수
 
@@ -272,7 +272,7 @@ Welch t = 0.608, p = 0.543, Cohen's d = −0.017
 
 ## 9. Strain
 
-수식 원문: [../METRICS_FORMULAS.md §6](../METRICS_FORMULAS.md#6-strain)
+수식 원문: [../METRICS_FORMULAS.md §6](../../../standards/METRICS_FORMULAS.md#6-strain)
 
 ### 산출 함수
 
@@ -363,11 +363,11 @@ SoccerMon은 Hooper 원 정의(1–7 스케일)와 다른 **1–5 스케일** �
 | soreness | 1–5 | 1–7 | 분석 내 그대로 사용 |
 | sleep_quality | 1–5 | 1–7 | 분석 내 그대로 사용 |
 
-스케일 정규화 결정의 근거는 `docs/DECISIONS.md` ADR 항목에 기록되어 있다.
+스케일 정규화 결정의 근거는 `docs/rnd/DECISIONS.md` ADR 항목에 기록되어 있다.
 
 ---
 
 *참조 코드: `src/metrics/monotony_strain.py`*
 *참조 보고서: `reports/track_B_model_comparison.md`*
-*수식 원문: [../METRICS_FORMULAS.md](../METRICS_FORMULAS.md)*
+*수식 원문: [../METRICS_FORMULAS.md](../../../standards/METRICS_FORMULAS.md)*
 *데이터셋 근거: Midoglu et al. (2024). SoccerMon Dataset. Scientific Data. DOI: 10.5281/zenodo.10033832*

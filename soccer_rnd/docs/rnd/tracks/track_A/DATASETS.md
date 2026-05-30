@@ -1,4 +1,4 @@
-> **문서 ID**: TRK-A-DATASETS · **버전**: v2 · **최종수정**: 2026-05-30 · **상위문서**: [RESEARCH_PROTOCOL.md](../RESEARCH_PROTOCOL.md)
+> **문서 ID**: TRK-A-DATASETS · **버전**: v2 · **최종수정**: 2026-05-30 · **상위문서**: [RESEARCH_PROTOCOL.md](../../RESEARCH_PROTOCOL.md)
 
 # Track A 데이터셋 후보 비교
 
@@ -8,7 +8,7 @@
 
 트랙 A는 **HRV/RR 원자료**로부터 rMSSD, SDNN을 산출하고, 운동 부하 지표(ACWR 등)와의 시차 관계를 분석하는 것이 목적이다. 따라서 다음 조건을 충족하는 공개 데이터셋이 필요하다.
 
-지표 수식 정의는 [METRICS_FORMULAS.md](../METRICS_FORMULAS.md)를 교차참조한다.
+지표 수식 정의는 [METRICS_FORMULAS.md](../../../standards/METRICS_FORMULAS.md)를 교차참조한다.
 
 **필수 컬럼:**
 - RR intervals (또는 beat-to-beat 심박 원자료)
@@ -24,7 +24,7 @@
 
 ## 1-A. PhysioNet ACTES 실측 표본 요약
 
-실제 분석에서 확인된 수치 (출처: [reports/track_A_model_comparison.md](../../reports/track_A_model_comparison.md)):
+실제 분석에서 확인된 수치 (출처: [reports/track_A_model_comparison.md](../../../../reports/track_A_model_comparison.md)):
 
 | 항목 | 실측값 |
 |------|--------|

@@ -246,7 +246,7 @@
 | **현상** | `session_type`, `post_condition` 등은 ENUM. `position`(14개 값)은 TEXT + CHECK IN(...). 동일 마이그레이션 내 두 패턴 혼재. |
 | **판단 기준 부재** | "어떤 경우 ENUM, 어떤 경우 CHECK"의 결정 기준이 문서화되지 않음. |
 | **참고** | PostgreSQL ENUM은 `ALTER TYPE ADD VALUE`로 확장 가능하나 값 제거 불가. 변경 빈도 높은 값(포지션)은 CHECK가 합리적일 수 있으나, 그 판단이 ADR에 없음. |
-| **수정 방안** | docs/DECISIONS.md에 ADR 추가: "ENUM은 상태 머신(상태 전이가 명확한 경우), CHECK는 열거형 목록(변경 가능성 있는 경우)"와 같은 기준 명시 |
+| **수정 방안** | docs/rnd/DECISIONS.md에 ADR 추가: "ENUM은 상태 머신(상태 전이가 명확한 경우), CHECK는 열거형 목록(변경 가능성 있는 경우)"와 같은 기준 명시 |
 
 ---
 
@@ -268,7 +268,7 @@
 | **위치** | `00003` L84 (`pre_session_wellness.soreness`), `00004` L24 (`pw.soreness AS doms`) |
 | **현상** | 서비스 측: `soreness`. R&D 측: `doms`. 뷰에서 alias로 변환. |
 | **영향** | 코드베이스 전체에서 "이 두 이름이 같은 개념"이라는 매핑 지식이 암묵적으로만 존재. 신규 개발자 혼란. |
-| **수정 방안** | 서비스 측 컬럼명을 `doms`로 통일하거나, docs/DATA_SCHEMA_MAPPING.md에 매핑 테이블 명시 |
+| **수정 방안** | 서비스 측 컬럼명을 `doms`로 통일하거나, docs/standards/DATA_SCHEMA_MAPPING.md에 매핑 테이블 명시 |
 
 ---
 

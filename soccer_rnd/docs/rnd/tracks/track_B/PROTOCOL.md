@@ -1,11 +1,11 @@
-> **문서 ID**: TRK-B-PROTOCOL · **버전**: v2 · **최종수정**: 2026-05-30 · **상위문서**: [RESEARCH_PROTOCOL.md](../RESEARCH_PROTOCOL.md)
+> **문서 ID**: TRK-B-PROTOCOL · **버전**: v2 · **최종수정**: 2026-05-30 · **상위문서**: [RESEARCH_PROTOCOL.md](../../RESEARCH_PROTOCOL.md)
 
 # 트랙 B 프로토콜 (부하 + 설문)
 
 ## 목적
 부하 구조(ACWR, Monotony, Strain)가 선수 웰니스(Hooper Index)에 미치는 시차 효과를 정량적으로 설명한다.
 
-지표 수식 정의는 [METRICS_FORMULAS.md](../METRICS_FORMULAS.md)를 교차참조한다.
+지표 수식 정의는 [METRICS_FORMULAS.md](../../../standards/METRICS_FORMULAS.md)를 교차참조한다.
 
 ---
 
@@ -30,9 +30,9 @@
 
 ## 핵심 지표
 - **독립변수**: sRPE, ACWR (rolling/EWMA), Monotony, Strain
-  - 수식: [METRICS_FORMULAS.md §1 sRPE](../METRICS_FORMULAS.md), [§4 ACWR](../METRICS_FORMULAS.md), [§5 Monotony](../METRICS_FORMULAS.md), [§6 Strain](../METRICS_FORMULAS.md)
+  - 수식: [METRICS_FORMULAS.md §1 sRPE](../../../standards/METRICS_FORMULAS.md), [§4 ACWR](../../../standards/METRICS_FORMULAS.md), [§5 Monotony](../../../standards/METRICS_FORMULAS.md), [§6 Strain](../../../standards/METRICS_FORMULAS.md)
 - **종속변수**: Hooper Index (다음날, t+1)
-  - 수식: [METRICS_FORMULAS.md §7 Hooper Index](../METRICS_FORMULAS.md)
+  - 수식: [METRICS_FORMULAS.md §7 Hooper Index](../../../standards/METRICS_FORMULAS.md)
 - **통제**: 개인 랜덤효과 (1|athlete)
 
 ---
@@ -71,7 +71,7 @@ flowchart TD
 | LOSO MAE | 1.448 (SD=0.566; 선수 범위 0.585~2.906) |
 | Monotony >2.0 임계값 효과 | p = 0.543, Cohen's d = −0.017 (미지지) |
 
-출처: [reports/track_B_model_comparison.md](../../reports/track_B_model_comparison.md)
+출처: [reports/track_B_model_comparison.md](../../../../reports/track_B_model_comparison.md)
 
 ---
 
@@ -79,7 +79,7 @@ flowchart TD
 - 재현성: `np.random.seed(42)`, 파라미터 문서화 (`config.json`)
 - reviewer-safe 톤: "시사한다/관찰된다/일관된 경향"
 - ACWR 단독 사용 한계 명시 (Impellizzeri et al., 2020)
-- 결측 처리: NA 유지 원칙, 처리 규칙은 `docs/DECISIONS.md` ADR로 기록
+- 결측 처리: NA 유지 원칙, 처리 규칙은 `docs/rnd/DECISIONS.md` ADR로 기록
 
 ---
 

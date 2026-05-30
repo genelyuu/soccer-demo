@@ -2,7 +2,7 @@
 ACWR (Acute:Chronic Workload Ratio) 지표 산출 모듈.
 
 ATL(급성 훈련 부하), CTL(만성 훈련 부하), ACWR을 Rolling Average 및 EWMA 방식으로 계산한다.
-수식 정의: docs/METRICS_FORMULAS.md 참조.
+수식 정의: docs/standards/METRICS_FORMULAS.md 참조.
 """
 
 import numpy as np

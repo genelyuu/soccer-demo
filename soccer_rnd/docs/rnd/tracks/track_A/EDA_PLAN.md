@@ -1,4 +1,4 @@
-> **문서 ID**: TRK-A-EDA · **버전**: v1.0 · **최종수정**: 2026-05-30 · **상위문서**: [RESEARCH_PROTOCOL.md](../RESEARCH_PROTOCOL.md) · **담당영역**: Track A (HRV 중심, PhysioNet ACTES)
+> **문서 ID**: TRK-A-EDA · **버전**: v1.0 · **최종수정**: 2026-05-30 · **상위문서**: [RESEARCH_PROTOCOL.md](../../RESEARCH_PROTOCOL.md) · **담당영역**: Track A (HRV 중심, PhysioNet ACTES)
 
 # Track A EDA 계획 (탐색적 데이터 분석)
 
@@ -180,7 +180,7 @@ flowchart TD
 | 워밍업 | 28일 (rolling) | 21일 (ewma) |
 | 권장 | 탐색용 | 본 프로젝트 기본 (config.json) |
 
-자세한 비교 기준: [../METRICS_FORMULAS.md §4 ACWR Rolling vs EWMA 비교표](../METRICS_FORMULAS.md#rolling-average-vs-ewma-비교)
+자세한 비교 기준: [../METRICS_FORMULAS.md §4 ACWR Rolling vs EWMA 비교표](../../../standards/METRICS_FORMULAS.md#rolling-average-vs-ewma-비교)
 
 ### 점검 질문
 
@@ -212,7 +212,7 @@ ctl_ewma(loads, span=28)
 | 3단계 | rMSSD vs 파워 산점도 | `reports/figures/track_A_rmssd_vs_power_scatter.png` |
 | 4단계 | ACWR Rolling vs EWMA 시계열 | 노트북 인라인 (별도 저장 필요) |
 
-> EDA 완료 후 → [STATS_PLAN.md](./STATS_PLAN.md) 진입하여 혼합효과모형 적합 진행.
+> EDA 완료 후 → [STATS_PLAN.md](STATS_PLAN.md) 진입하여 혼합효과모형 적합 진행.
 
 ---
 

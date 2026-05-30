@@ -1,8 +1,8 @@
-> **문서 ID**: TRK-A-METRICS · **버전**: v1.0 · **최종수정**: 2026-05-30 · **상위문서**: [RESEARCH_PROTOCOL.md](../RESEARCH_PROTOCOL.md) · **담당영역**: Track A (HRV 중심, PhysioNet ACTES)
+> **문서 ID**: TRK-A-METRICS · **버전**: v1.0 · **최종수정**: 2026-05-30 · **상위문서**: [RESEARCH_PROTOCOL.md](../../RESEARCH_PROTOCOL.md) · **담당영역**: Track A (HRV 중심, PhysioNet ACTES)
 
 # Track A 지표 정의 (Metrics Specification)
 
-> 수식 원문은 [../METRICS_FORMULAS.md](../METRICS_FORMULAS.md)에서 정의한다.
+> 수식 원문은 [../METRICS_FORMULAS.md](../../../standards/METRICS_FORMULAS.md)에서 정의한다.
 > 본 문서는 Track A 특이 적용 규칙, 함수 매핑, 품질 기준만 기술한다.
 
 ---
@@ -13,14 +13,14 @@
 
 | 지표 | 약어 | 산출 함수 | 수식 문서 참조 | Track A 적용 비고 |
 |------|------|-----------|----------------|-------------------|
-| 급성훈련부하 (Rolling) | ATL_rolling | `src/metrics/acwr.py::atl_rolling(loads, window=7)` | [§2.1 ATL Rolling](../METRICS_FORMULAS.md#21-rolling-average-방식) | ACTES는 단일 세션이므로 파워 구간별 평균 파워(W)를 부하 대리지표로 사용 |
-| 급성훈련부하 (EWMA) | ATL_ewma | `src/metrics/acwr.py::atl_ewma(loads, span=7)` | [§2.2 ATL EWMA](../METRICS_FORMULAS.md#22-ewma-방식) | α = 2/(7+1) = 0.25 |
-| 만성훈련부하 (Rolling) | CTL_rolling | `src/metrics/acwr.py::ctl_rolling(loads, window=28)` | [§3.1 CTL Rolling](../METRICS_FORMULAS.md#31-rolling-average-방식) | 28일 Warm-up 필요 (단일 세션 적용 시 제한) |
-| 만성훈련부하 (EWMA) | CTL_ewma | `src/metrics/acwr.py::ctl_ewma(loads, span=28)` | [§3.2 CTL EWMA](../METRICS_FORMULAS.md#32-ewma-방식) | α = 2/(28+1) ≈ 0.069 |
-| 급성:만성 부하비 (Rolling) | ACWR_rolling | `src/metrics/acwr.py::acwr_rolling(loads)` | [§4.1 ACWR Rolling](../METRICS_FORMULAS.md#41-rolling-average-방식-coupled) | CTL=0 시 NaN 처리 |
-| 급성:만성 부하비 (EWMA) | ACWR_ewma | `src/metrics/acwr.py::acwr_ewma(loads, warmup=21)` | [§4.3 ACWR EWMA](../METRICS_FORMULAS.md#43-ewma-방식) | 워밍업 21일 내 NaN |
-| 훈련 단조성 | Monotony | `src/metrics/monotony_strain.py::monotony(loads, window=7, cap=10.0)` | [§5 Monotony](../METRICS_FORMULAS.md#5-monotony) | sd=0 시 cap=10.0 적용 |
-| 훈련 부담 | Strain | `src/metrics/monotony_strain.py::strain(loads, window=7)` | [§6 Strain](../METRICS_FORMULAS.md#6-strain) | Monotony=NaN 시 Strain=NaN |
+| 급성훈련부하 (Rolling) | ATL_rolling | `src/metrics/acwr.py::atl_rolling(loads, window=7)` | [§2.1 ATL Rolling](../../../standards/METRICS_FORMULAS.md#21-rolling-average-방식) | ACTES는 단일 세션이므로 파워 구간별 평균 파워(W)를 부하 대리지표로 사용 |
+| 급성훈련부하 (EWMA) | ATL_ewma | `src/metrics/acwr.py::atl_ewma(loads, span=7)` | [§2.2 ATL EWMA](../../../standards/METRICS_FORMULAS.md#22-ewma-방식) | α = 2/(7+1) = 0.25 |
+| 만성훈련부하 (Rolling) | CTL_rolling | `src/metrics/acwr.py::ctl_rolling(loads, window=28)` | [§3.1 CTL Rolling](../../../standards/METRICS_FORMULAS.md#31-rolling-average-방식) | 28일 Warm-up 필요 (단일 세션 적용 시 제한) |
+| 만성훈련부하 (EWMA) | CTL_ewma | `src/metrics/acwr.py::ctl_ewma(loads, span=28)` | [§3.2 CTL EWMA](../../../standards/METRICS_FORMULAS.md#32-ewma-방식) | α = 2/(28+1) ≈ 0.069 |
+| 급성:만성 부하비 (Rolling) | ACWR_rolling | `src/metrics/acwr.py::acwr_rolling(loads)` | [§4.1 ACWR Rolling](../../../standards/METRICS_FORMULAS.md#41-rolling-average-방식-coupled) | CTL=0 시 NaN 처리 |
+| 급성:만성 부하비 (EWMA) | ACWR_ewma | `src/metrics/acwr.py::acwr_ewma(loads, warmup=21)` | [§4.3 ACWR EWMA](../../../standards/METRICS_FORMULAS.md#43-ewma-방식) | 워밍업 21일 내 NaN |
+| 훈련 단조성 | Monotony | `src/metrics/monotony_strain.py::monotony(loads, window=7, cap=10.0)` | [§5 Monotony](../../../standards/METRICS_FORMULAS.md#5-monotony) | sd=0 시 cap=10.0 적용 |
+| 훈련 부담 | Strain | `src/metrics/monotony_strain.py::strain(loads, window=7)` | [§6 Strain](../../../standards/METRICS_FORMULAS.md#6-strain) | Monotony=NaN 시 Strain=NaN |
 
 > **Track A 설계 주의**: ACTES 데이터셋은 단일 세션 점증 부하 검사이므로, ATL/CTL/ACWR를 종단 시계열 방식으로 산출하는 것은 구조적으로 제한된다. 30초 윈도우 분석에서는 윈도우별 평균 파워(power_mean, W)를 부하 연속변수로 직접 사용한다.
 
@@ -30,10 +30,10 @@
 
 | 지표 | 약어 | 산출 함수 | 수식 문서 참조 | 스포츠 현장 의미 |
 |------|------|-----------|----------------|-----------------|
-| 인접 NN 간격 차 제곱 평균 제곱근 | rMSSD | `src/metrics/hrv_features.py::rmssd(nn_intervals, min_count=150)` | [§8.2 rMSSD](../METRICS_FORMULAS.md#82-rmssd-root-mean-square-of-successive-differences) | 부교감(vagal) 신경 활동 반영 — 스포츠 모니터링 권장 지표 |
-| NN 간격 표준편차 | SDNN | `src/metrics/hrv_features.py::sdnn(nn_intervals, min_count=150)` | [§8.1 SDNN](../METRICS_FORMULAS.md#81-sdnn-standard-deviation-of-nn-intervals) | 총 HRV 변이 — 교감+부교감 통합 반영 |
-| rMSSD 자연 로그 | ln_rMSSD | `src/metrics/hrv_features.py::ln_rmssd(nn_intervals, min_count=150)` | [§8.3 ln rMSSD](../METRICS_FORMULAS.md#83-lnrmssd--자연-로그-변환) | 분포 정규화·변이 계수 감소 목적 |
-| ln_rMSSD 7일 이동평균 | ln_rMSSD_7d | `src/metrics/hrv_features.py::ln_rmssd_rolling(daily_ln_rmssd, window=7)` | [§8.3 ln rMSSD](../METRICS_FORMULAS.md#83-lnrmssd--자연-로그-변환) | 일상적 변동 완화·추세 파악용 |
+| 인접 NN 간격 차 제곱 평균 제곱근 | rMSSD | `src/metrics/hrv_features.py::rmssd(nn_intervals, min_count=150)` | [§8.2 rMSSD](../../../standards/METRICS_FORMULAS.md#82-rmssd-root-mean-square-of-successive-differences) | 부교감(vagal) 신경 활동 반영 — 스포츠 모니터링 권장 지표 |
+| NN 간격 표준편차 | SDNN | `src/metrics/hrv_features.py::sdnn(nn_intervals, min_count=150)` | [§8.1 SDNN](../../../standards/METRICS_FORMULAS.md#81-sdnn-standard-deviation-of-nn-intervals) | 총 HRV 변이 — 교감+부교감 통합 반영 |
+| rMSSD 자연 로그 | ln_rMSSD | `src/metrics/hrv_features.py::ln_rmssd(nn_intervals, min_count=150)` | [§8.3 ln rMSSD](../../../standards/METRICS_FORMULAS.md#83-lnrmssd--자연-로그-변환) | 분포 정규화·변이 계수 감소 목적 |
+| ln_rMSSD 7일 이동평균 | ln_rMSSD_7d | `src/metrics/hrv_features.py::ln_rmssd_rolling(daily_ln_rmssd, window=7)` | [§8.3 ln rMSSD](../../../standards/METRICS_FORMULAS.md#83-lnrmssd--자연-로그-변환) | 일상적 변동 완화·추세 파악용 |
 
 ---
 

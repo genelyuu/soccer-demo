@@ -2,7 +2,7 @@
 HRV (심박 변이도) 시간 영역 지표 산출 모듈.
 
 SDNN, rMSSD, ln(rMSSD) 및 ln(rMSSD) 7일 Rolling Average를 계산한다.
-수식 정의: docs/METRICS_FORMULAS.md 참조.
+수식 정의: docs/standards/METRICS_FORMULAS.md 참조.
 근거: Task Force (1996) [Ref #22].
 """
 

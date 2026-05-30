@@ -1,12 +1,12 @@
 # 연구 프로토콜 — 훈련 부하 모니터링의 예측·인과·임상효용 분석
 
 > **버전**: 1.0 | **작성**: 2026-05-30 | **언어 정책**: 한국어(ko-KR)
-> **위치**: `docs/RESEARCH_PROTOCOL.md`
-> **선행 산출물**: [`reports/POV_REPORT.md`](../reports/POV_REPORT.md) (연관성 분석 단계)
-> **참고 문서**: [`docs/REFERENCES.md`](REFERENCES.md), [`docs/METRICS_FORMULAS.md`](METRICS_FORMULAS.md),
-> [`docs/INJURY_PREDICTION_REFERENCES.md`](INJURY_PREDICTION_REFERENCES.md), [`docs/track_A/`](track_A/), [`docs/track_B/`](track_B/)
+> **위치**: `docs/rnd/RESEARCH_PROTOCOL.md`
+> **선행 산출물**: [`reports/POV_REPORT.md`](../../reports/POV_REPORT.md) (연관성 분석 단계)
+> **참고 문서**: [`docs/standards/REFERENCES.md`](../standards/REFERENCES.md), [`docs/standards/METRICS_FORMULAS.md`](../standards/METRICS_FORMULAS.md),
+> [`docs/rnd/INJURY_PREDICTION_REFERENCES.md`](INJURY_PREDICTION_REFERENCES.md), [`docs/rnd/tracks/track_A/`](../track_A), [`docs/rnd/tracks/track_B/`](../track_B)
 > **재현 환경**: Python 3.13.7, numpy 1.26.4(seed=42), pandas 2.3.1, statsmodels 0.14.5, scipy 1.16.1, scikit-learn 1.7.1
-> **EDA 산출 스크립트**: [`scripts/eda_protocol.py`](../scripts/eda_protocol.py) (read-only, 본 문서의 모든 실측치 재현)
+> **EDA 산출 스크립트**: [`scripts/eda_protocol.py`](../../scripts/eda_protocol.py) (read-only, 본 문서의 모든 실측치 재현)
 
 ---
 
@@ -24,7 +24,7 @@
 
 ## A. 데이터셋 설명 (Datasets)
 
-> 주의: `docs/track_A/DATASETS.md`, `docs/track_B/DATASETS.md`는 **취득 전 후보 비교(스카우팅) 문서**이며 실제 확보 데이터와 규모가 다르다. 아래는 **실제 사용 데이터** 기준이다.
+> 주의: `docs/rnd/tracks/track_A/DATASETS.md`, `docs/rnd/tracks/track_B/DATASETS.md`는 **취득 전 후보 비교(스카우팅) 문서**이며 실제 확보 데이터와 규모가 다르다. 아래는 **실제 사용 데이터** 기준이다.
 
 ### A.1 Track A — PhysioNet ACTES (HRV 용량-반응)
 

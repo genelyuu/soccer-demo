@@ -2,7 +2,7 @@
 데이터 로딩 및 스키마 검증 모듈.
 
 CSV 파일을 읽어 트랙 A/B 표준 스키마에 맞게 검증하고 DataFrame으로 반환한다.
-표준 스키마 정의: docs/DATA_SCHEMA_MAPPING.md 참조.
+표준 스키마 정의: docs/standards/DATA_SCHEMA_MAPPING.md 참조.
 """
 
 import pandas as pd
@@ -81,7 +81,7 @@ def load_track_a(filepath: str) -> pd.DataFrame:
     트랙 A CSV 파일을 로딩하고 표준 스키마를 검증한다.
 
     필수 컬럼: subject_id, session_id, timestamp, rr_interval_ms, power_watts
-    (docs/DATA_SCHEMA_MAPPING.md 1.1절 참조)
+    (docs/standards/DATA_SCHEMA_MAPPING.md 1.1절 참조)
 
     Parameters
     ----------
@@ -114,7 +114,7 @@ def load_track_b(filepath: str) -> pd.DataFrame:
     트랙 B CSV 파일을 로딩하고 표준 스키마를 검증한다.
 
     필수 컬럼: athlete_id, date, rpe, duration_min, srpe, fatigue, stress,
-    doms, sleep (docs/DATA_SCHEMA_MAPPING.md 1.2절 참조)
+    doms, sleep (docs/standards/DATA_SCHEMA_MAPPING.md 1.2절 참조)
 
     date 컬럼은 자동으로 datetime 형식으로 변환된다.
 
