@@ -51,14 +51,20 @@ EPV 제약: 43건 → EPV 10 규칙상 **동시 예측변수 ≤ 4개**(풀 ML �
 
 → 양성률 ~1% 안팎의 **극단 불균형** → ROC-AUC가 아닌 **PR-AUC** 사용 근거.
 
+![선행 위험창 양성률·불균형](figures/injury_eda_incidence_window.png)
+
 ### 2.2 부위·중증도
 
 - 부위 top-5: right_thigh 11, left_knee 7, right_foot 6, groin_hip 5, left_thigh·left_foot 4(공동).
 - 중증도: minor **34** / major **9**(복수 부위 시 major 격상).
 
+![부위·중증도 분포](figures/injury_eda_bodypart_severity.png)
+
 ### 2.3 결측 패턴
 
 - wellness 5종(fatigue/stress/soreness/sleep_quality/hooper_index) 결측률 ≈ **32.4~32.5%**로 거의 동일 → 동일 설문 미보고일에 동반 결측되는 패턴이 관찰됨(MNAR 의심 → P5 후속 정량화 대상).
+
+![월별×변수 결측 히트맵](figures/injury_eda_missing_heatmap.png)
 
 ### 2.4 노출-결과 시간정렬 (onset [-7,+7]일)
 
@@ -70,11 +76,15 @@ EPV 제약: 43건 → EPV 10 규칙상 **동시 예측변수 ≤ 4개**(풀 ML �
 
 → 부상 시점 전후로 ACWR가 상승한 수준에서 유지되는 경향이 *관찰*되나 인과로 단정 불가.
 
+![onset 전후 부하·ACWR 추이](figures/injury_eda_event_aligned.png)
+
 ### 2.5 KM 생존 (선수별 최초 onset, 미발생자 censoring)
 
 - 44명 중 이벤트 15 / 검열 29. 이벤트<50%로 중위 생존시간 추정 불가.
 - 관찰 종료시점(t=702일) 생존확률 ≈ **0.633**.
 - 팀별: TeamA(n=27) 0.593 vs TeamB(n=17) 0.732 → **TeamA 부상 위험이 상대적으로 높게 관찰**(Leave-Team-Out 외적타당도는 P5 후속).
+
+![KM 생존곡선(전체·팀별)](figures/injury_eda_km_survival.png)
 
 ### 2.6 활성일 정의
 

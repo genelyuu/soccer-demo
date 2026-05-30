@@ -32,7 +32,7 @@
 | **5. 통합 가설 검증** | H1~H4를 합성 DGP로 PASS/FAIL 판정 (**9/13 PASS**) | [`notebooks/integrated_hypothesis.ipynb`](notebooks/integrated_hypothesis.ipynb) · [`notebooks/run_integrated_hypothesis.py`](notebooks/run_integrated_hypothesis.py) · [`reports/integrated_hypothesis_report.md`](reports/integrated_hypothesis_report.md) | ✅ 완료 |
 | **6. 합성 데이터 검증** | 참값(β, σ) 복원 sanity check, 파이프라인 사전 검증 | [`notebooks/run_synthetic_analysis.py`](notebooks/run_synthetic_analysis.py) · [`reports/track_A_model_comparison_synthetic.md`](reports/track_A_model_comparison_synthetic.md) · [`tests/test_synthetic_integrated.py`](tests/test_synthetic_integrated.py) | ✅ 완료 |
 | **7. 종합 보고** | 실데이터 결과·효과크기·해석을 PoV 보고서로 통합 | [`reports/POV_REPORT.md`](reports/POV_REPORT.md) | ✅ 완료 |
-| **8. (계획) 부상 예측 격상** | 연관성 → 예측·인과·임상효용 격상. 부상 onset 라벨 기반 생존모형·case-crossover·decision-curve | [`docs/rnd/RESEARCH_PROTOCOL.md`](docs/rnd/RESEARCH_PROTOCOL.md) · [`docs/rnd/INJURY_PREDICTION_REFERENCES.md`](docs/rnd/INJURY_PREDICTION_REFERENCES.md) | 🔵 프로토콜 확정 |
+| **8. 부상 예측 격상 (P0~P3)** | onset 라벨(gap≥7, 43건) → 기술역학 EDA → Gabbett 기준선 → 삼각검증(이산시간 생존·case-crossover·벌점 로지스틱). 검정력 제약상 **방법론 시연** | [`reports/injury_prediction_report.md`](reports/injury_prediction_report.md) · [`docs/rnd/tracks/track_B/INJURY_PREDICTION.md`](docs/rnd/tracks/track_B/INJURY_PREDICTION.md) · [`src/data/injury_label.py`](src/data/injury_label.py) · [`src/stats/survival_models.py`](src/stats/survival_models.py) · [`docs/rnd/RESEARCH_PROTOCOL.md`](docs/rnd/RESEARCH_PROTOCOL.md) | ✅ P0~P3 완료 (P4~P6 계획) |
 
 > **노트북 미리보기 (nbviewer)** — GitHub 자체 렌더가 느리거나 실패할 경우 아래 nbviewer 링크로 안정적으로 확인할 수 있다.
 > [track_A_eda](https://nbviewer.org/github/genelyuu/soccer-demo/blob/main/soccer_rnd/notebooks/track_A_eda.ipynb) ·
@@ -74,6 +74,15 @@
 
 ![H1 OLS vs Mixed R²](reports/figures/h1_ols_vs_mixed_r2.png)
 
+### Stage 8 — 부상 예측 (P0~P3, 방법론 시연)
+- **onset 라벨**: gap≥7 규칙으로 독립 onset **43건**·발생률 **1.748/1000 athlete-days** 재현(외부 연구 arXiv 2601.19479 일치).
+- **삼각검증 방향 일관 3/3**: 이산시간 생존 HR **3.263** (p<0.001) · 벌점 로지스틱 coef **+0.175** · case-crossover OR 1.159(비유의).
+- 검정력 제약(독립 onset 43건·EPV≤4)상 임상 배포를 주장하지 않는 **방법론 시연** 단계(reviewer-safe).
+
+![onset 전후 부하·ACWR 추이](reports/figures/injury_eda_event_aligned.png)
+
+> 상세 결과·그림: [`reports/injury_prediction_report.md`](reports/injury_prediction_report.md) · 개념·방법론: [`docs/rnd/tracks/track_B/INJURY_PREDICTION.md`](docs/rnd/tracks/track_B/INJURY_PREDICTION.md)
+
 > 전체 그림: [`reports/figures/`](reports/figures/)
 
 ---
@@ -82,20 +91,23 @@
 
 ```
 soccer_rnd/
-├── docs/                  # 프로토콜·지표정의·결정기록(ADR)·문헌·연구 프로토콜
-│   ├── RESEARCH_PROTOCOL.md          # 부상 예측 격상 연구 설계 (단계 8)
-│   ├── INJURY_PREDICTION_REFERENCES.md  # 부상 예측 데이터셋·문헌 조사
-│   ├── REFERENCES.md · METRICS_FORMULAS.md · DECISIONS.md
-│   └── track_A/ · track_B/           # 트랙별 프로토콜·데이터셋·EDA/통계 계획
+├── docs/                  # R&D 문서 거버넌스 (허브: docs/README.md, 구조 근거: ADR-015)
+│   ├── rnd/               # 연구·요구·통제·실행
+│   │   ├── RESEARCH_PROTOCOL.md · TRD_v1.0.md · GOVERNANCE.md · PLAYBOOK.md · DECISIONS.md
+│   │   ├── INJURY_PREDICTION_REFERENCES.md
+│   │   ├── requirements/  # DRD_v1~v3.0 · DATA_SPEC_v3.0
+│   │   └── tracks/        # track_A/ · track_B/ (+ INJURY_PREDICTION.md)
+│   └── standards/         # METRICS_FORMULAS · DATA_SCHEMA_MAPPING · REFERENCES (SSOT)
+├── ops/                   # 운영(비 R&D): migration/ · incidents/
 ├── src/
 │   ├── metrics/           # acwr · monotony_strain · hrv_features · alternative_load
-│   ├── data/              # loader · preprocess · synthetic · supabase_loader
-│   ├── eda/ · stats/       # EDA 유틸 · 혼합효과모형
+│   ├── data/              # loader · preprocess · synthetic · injury_label
+│   ├── eda/ · stats/       # EDA 유틸 · 혼합효과 · 생존모형(survival_models · injury_*)
 ├── notebooks/             # 재현 가능한 EDA·통계 노트북 + run_*.py 스크립트
-├── reports/               # PoV 보고서 + 모형 비교표
-│   └── figures/           # 산출 그림 (18종)
+├── reports/               # PoV 보고서 + 모형 비교표 + 부상예측 리포트
+│   └── figures/           # 산출 그림 (23종)
 ├── scripts/eda_protocol.py   # 실데이터 EDA 재현 (read-only)
-├── tests/                 # pytest 단위 테스트 (10개 파일)
+├── tests/                 # pytest 단위 테스트 (12개 파일)
 └── data/raw/ · data/processed/
 ```
 
