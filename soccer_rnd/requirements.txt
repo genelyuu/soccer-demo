@@ -17,6 +17,9 @@ patsy==1.0.1
 # 머신러닝 (교차 검증 등)
 scikit-learn==1.7.1
 
+# 생존분석 (Stage 8 부상예측 — 이산시간 생존 cloglog, Kaplan-Meier, Cox)
+lifelines==0.30.3
+
 # 테스트
 pytest==9.0.1
 
