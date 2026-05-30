@@ -1,10 +1,14 @@
+> **문서 ID**: TRK-B-DATASETS · **버전**: v2 · **최종수정**: 2026-05-30 · **상위문서**: [RESEARCH_PROTOCOL.md](../RESEARCH_PROTOCOL.md)
+
 # Track B 데이터셋 후보 비교
 
-> 작성: dataset-scout@soccer-rnd | 최종 갱신: 2026-02-10
+> 작성: dataset-scout@soccer-rnd | 최종 갱신: 2026-05-30
 
 ## 1. 개요
 
 트랙 B는 **시즌형 load + 설문 구조 데이터**를 이용하여 웰니스(Hooper Index) ~ 부하(ACWR, Monotony) 시차 관계를 분석하는 것이 목적이다. 따라서 다음 조건을 충족하는 공개 데이터셋이 필요하다.
+
+지표 수식 정의는 [METRICS_FORMULAS.md](../METRICS_FORMULAS.md)를 교차참조한다.
 
 **필수 컬럼:**
 - sRPE (또는 RPE + session duration)
@@ -17,6 +21,44 @@
 - 선수 수 10명 이상 (혼합효과모형의 개인 랜덤효과 추정에 필요)
 - 축구/팀 스포츠 맥락 (트랙 B의 응용 타당성)
 - 명확한 오픈 라이선스
+
+---
+
+## 1-A. SoccerMon 실측 표본 요약
+
+실제 분석에서 확인된 수치 (출처: [reports/track_B_model_comparison.md](../../reports/track_B_model_comparison.md)):
+
+| 항목 | 실측값 |
+|------|--------|
+| 데이터셋 | SoccerMon (Midoglu et al., 2024) |
+| 원본 로딩 (Wide→Long) | 36,550행, 11열 |
+| 활성 시즌 필터 후 | 25,529행 |
+| 선수 필터 후 (부하 ≥60일 & 웰니스 ≥60일) | **44명** (50명 → 44명) |
+| 최종 athlete-days | **24,596행** (날짜 범위: 2020-01-09 ~ 2021-12-31) |
+| 모형 데이터셋 (lag-1 시차 + 이상치 제거) | **16,186 관측** |
+| Hooper Index 결측률 | **약 32.5%** (16,592 / 24,596 유효) |
+| Hooper Index (M±SD) | 10.70 ± 1.77 (범위 4.5–17.5) |
+| ACWR (M±SD, 모형 데이터) | 1.170 ± 0.640 |
+| Monotony (M±SD, 모형 데이터) | 1.324 ± 0.543 |
+| 그룹 크기 범위 (선수별) | 73 – 629 (평균 367.9) |
+
+> 코드 경로: `src/data/preprocess.py` (Wide→Long 변환, 필터링), `src/metrics/acwr.py`, `src/metrics/monotony_strain.py`
+
+---
+
+## 1-B. 데이터 흐름 (Track B 파이프라인)
+
+```mermaid
+flowchart TD
+    A["SoccerMon 원본<br/>Wide 형식 36,550행"] --> B["Wide → Long 변환<br/>src/data/preprocess.py"]
+    B --> C["활성 시즌 필터<br/>→ 25,529행"]
+    C --> D["선수 필터<br/>부하 ≥60일 & 웰니스 ≥60일<br/>50명 → 44명 / 24,596행"]
+    D --> E["지표 산출<br/>src/metrics/acwr.py<br/>src/metrics/monotony_strain.py<br/>ACWR · ATL · CTL · Monotony · Strain"]
+    E --> F["Hooper Index 구성<br/>fatigue + stress_norm<br/>+ soreness + sleep_quality<br/>결측률 ~32.5%"]
+    F --> G["lag-1 시차 적용<br/>→ 16,186 관측 (44명)"]
+    G --> H["혼합효과모형<br/>src/stats/mixed_effects.py<br/>Hooper_t+1 ~ ACWR_t + Monotony_t<br/>+ (1|athlete)"]
+    H --> I["결과 보고<br/>reports/track_B_model_comparison.md"]
+```
 
 ---
 
@@ -37,6 +79,8 @@
 | **파일 형식** | CSV | CSV / Excel | CSV / Excel |
 | **인용 논문** | Carey, D. L., et al. (2018). Modelling training loads and injuries: The dangers of discretization. *Medicine & Science in Sports & Exercise*. | Rossi, A., et al. (2018). Effective injury forecasting in soccer with GPS training data and machine learning. *PLOS ONE*. | Nobari, H., et al. (2021). 관련 문헌 |
 
+> **실제 채택 데이터셋**: 분석 과정에서 SoccerMon (Midoglu et al., 2024; DOI: 10.5281/zenodo.10033832)을 실제 사용하였다. Carey et al. 및 SoccerMon 모두 필수 컬럼(sRPE·Hooper·선수ID·날짜)을 충족하며, SoccerMon은 **44명 · 24,596 athlete-days** 규모의 실측 데이터이다.
+
 ---
 
 ## 3. 후보별 상세 평가
@@ -54,11 +98,11 @@
 
 **단점:**
 - 호주 풋볼(AFL) 데이터로, 축구(association football)와 정확히 동일한 종목은 아님
-- 웰니스 설문 항목명이 Hooper의 원래 명명과 약간 다를 수 있음 (예: "muscle soreness" vs "DOMS") -- 매핑 정의 필요
+- 웰니스 설문 항목명이 Hooper의 원래 명명과 약간 다를 수 있음 (예: "muscle soreness" vs "DOMS") — 매핑 정의 필요
 - "mood" 항목은 전통적 Hooper Index(fatigue + stress + DOMS + sleep 4항목)에 포함되지 않으므로 제외하거나 별도 분석 결정 필요
 - 정확한 데이터 크기 및 결측 비율은 다운로드 후 확인 필요
 
-**재현성 평가:** 매우 높음 -- CC BY 4.0, CSV 형식, 명확한 인용 논문, Zenodo DOI 기반 영구 접근
+**재현성 평가:** 매우 높음 — CC BY 4.0, CSV 형식, 명확한 인용 논문, Zenodo DOI 기반 영구 접근
 
 ---
 
@@ -72,11 +116,11 @@
 - CC BY 4.0 라이선스
 
 **단점:**
-- **Hooper 설문 항목(fatigue, stress, DOMS, sleep)이 포함되어 있지 않음** -- 트랙 B의 핵심 종속변수인 Hooper Index를 구성할 수 없음
+- **Hooper 설문 항목(fatigue, stress, DOMS, sleep)이 포함되어 있지 않음** — 트랙 B의 핵심 종속변수인 Hooper Index를 구성할 수 없음
 - RPE만으로는 웰니스-부하 시차 관계의 "웰니스" 축을 대체할 수 없음
 - sRPE를 독립변수와 종속변수 양쪽에 사용하게 되면 자기상관 문제 발생
 
-**재현성 평가:** 높음 -- CC BY 4.0, Figshare DOI 기반
+**재현성 평가:** 높음 — CC BY 4.0, Figshare DOI 기반
 
 **적합성 판단:** Hooper 항목이 없으므로 **단독 사용은 부적합**. 다만 외부 부하(GPS) 지표와 sRPE를 비교하는 보조 분석이나, 트랙 A/B 공통 부하 산출 파이프라인 검증 용도로 활용 가능.
 
@@ -97,7 +141,7 @@
 - 정확한 데이터 구조와 결측 패턴은 다운로드 후 확인 필요
 - 데이터셋의 정확한 URL 및 DOI는 Mendeley Data 검색으로 확인 필요
 
-**재현성 평가:** 중간~높음 -- CC BY 4.0이지만, 데이터 형식의 표준화 수준은 다운로드 후 확인 필요
+**재현성 평가:** 중간~높음 — CC BY 4.0이지만, 데이터 형식의 표준화 수준은 다운로드 후 확인 필요
 
 ---
 
@@ -114,19 +158,20 @@
 
 ## 5. 1순위 추천 및 근거
 
-### **추천: Zenodo "Daily training load and wellness" (Carey et al.)**
+### **추천: Zenodo "Daily training load and wellness" (Carey et al.) / 실제 채택: SoccerMon**
 
 **핵심 근거:**
 1. **4가지 필수 컬럼 완전 충족**: sRPE + 웰니스 설문(Hooper 호환) + 선수ID + 날짜가 모두 포함된 유일한 완전 공개 데이터셋
 2. **일별(daily) 기록**: ACWR(7일/28일 rolling), Monotony(7일), Strain 산출에 필요한 연속 일별 부하 데이터 제공
-3. **충분한 표본 크기**: ~45명 선수, 시즌 규모 데이터로 혼합효과모형의 개인 랜덤효과 추정에 충분한 그룹 수
+3. **충분한 표본 크기**: SoccerMon 기준 44명 · 24,596 athlete-days · 16,186 모형 관측으로 혼합효과모형 적용에 충분
 4. **즉시 접근 가능**: CC BY 4.0, Zenodo DOI, 별도 승인 절차 없음
-5. **인용 가능**: Carey et al. (2018) 저널 논문이 존재하여 학술적 신뢰성 확보
+5. **인용 가능**: Carey et al. (2018) 및 Midoglu et al. (2024) 저널 논문이 존재하여 학술적 신뢰성 확보
 
 **한계 인식 및 대응 전략:**
-- AFL =/= 축구: PoV 보고서에서 "팀 스포츠 일반"으로 프레이밍하고, 종목 특수성은 한계 섹션에 명시
-- 웰니스 항목 매핑: "muscle soreness" -> DOMS, "sleep quality" -> sleep으로 매핑하고, "mood"는 Hooper Index 산출에서 제외 (별도 보조 분석 가능)
-- 결측 처리: 다운로드 후 EDA에서 결측 패턴 확인하고, docs/DECISIONS.md에 ADR로 결측 처리 규칙 기록
+- AFL ≠ 축구: PoV 보고서에서 "팀 스포츠 일반"으로 프레이밍하고, 종목 특수성은 한계 섹션에 명시
+- 웰니스 항목 매핑: "muscle soreness" → DOMS, "sleep quality" → sleep으로 매핑하고, "mood"는 Hooper Index 산출에서 제외 (별도 보조 분석 가능)
+- stress 척도 정규화: SoccerMon stress는 1–10 스케일 → stress/2.0으로 정규화하여 1–5 척도에 통일 (docs/DECISIONS.md ADR 참조)
+- Hooper 결측 약 32.5%는 NA 유지 원칙 적용; 결측 처리 규칙은 docs/DECISIONS.md에 ADR로 기록
 
 **2순위 보조 활용 전략:**
 - 3순위 Nobari et al. 데이터가 일별 기록이 확인되면 축구 종목 보조 데이터로 병행 분석 고려
@@ -149,13 +194,30 @@
 3. CSV/Excel 다운로드
 4. `data/raw/track_B_supplementary/` 디렉토리에 배치
 
+**관련 코드 경로:**
+- `src/data/preprocess.py` — Wide→Long 변환, 활성 시즌 필터, 선수 필터
+- `src/metrics/acwr.py` — ACWR (Rolling/EWMA) 산출
+- `src/metrics/monotony_strain.py` — Monotony, Strain 산출
+- `src/stats/mixed_effects.py` — 혼합효과모형
+- `data/processed/track_B_merged.csv` — 전처리 완료 데이터 (24,596행, 44선수)
+
 ---
 
 ## 7. 참고문헌
 
 - Carey, D. L., et al. (2018). Modelling training loads and injuries: The dangers of discretization. *Medicine & Science in Sports & Exercise*, 50(11), 2267-2276.
+- Midoglu, C., et al. (2024). SoccerMon: A Multimodal Soccer Dataset. *Scientific Data*. DOI: 10.5281/zenodo.10033832.
 - Rossi, A., et al. (2018). Effective injury forecasting in soccer with GPS training data and machine learning. *PLOS ONE*, 13(7), e0201264.
-- Nobari, H., et al. (2021). 관련 훈련 모니터링 문헌 -- Mendeley Data 페이지 참조.
+- Nobari, H., et al. (2021). 관련 훈련 모니터링 문헌 — Mendeley Data 페이지 참조.
 - Hooper, S. L., et al. (1995). Markers for monitoring overtraining and recovery. *Medicine & Science in Sports & Exercise*, 27(1), 106-112.
 - Haddad, M., et al. (2017). Session-RPE method for training load monitoring: validity, ecological usefulness, and influencing factors. *Frontiers in Neuroscience*, 11, 612.
 - Foster, C. (1998). Monitoring training in athletes with reference to overtraining syndrome. *Medicine & Science in Sports & Exercise*, 30(7), 1164-1168.
+
+---
+
+## 변경 이력
+
+| 버전 | 일자 | 변경 내용 |
+|------|------|-----------|
+| v1 | 2026-02-10 | 초기 작성 |
+| v2 | 2026-05-30 | mermaid 데이터흐름 추가, 실측 표본수·수치 반영 (44명·24,596 athlete-days·결측 32.5%), SoccerMon 채택 명시, 코드 경로 교차참조, 용어 통일, 메타블록 추가 |

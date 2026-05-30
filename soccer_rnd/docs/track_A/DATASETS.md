@@ -1,10 +1,14 @@
+> **문서 ID**: TRK-A-DATASETS · **버전**: v2 · **최종수정**: 2026-05-30 · **상위문서**: [RESEARCH_PROTOCOL.md](../RESEARCH_PROTOCOL.md)
+
 # Track A 데이터셋 후보 비교
 
-> 작성: dataset-scout@soccer-rnd | 최종 갱신: 2026-02-10
+> 작성: dataset-scout@soccer-rnd | 최종 갱신: 2026-05-30
 
 ## 1. 개요
 
 트랙 A는 **HRV/RR 원자료**로부터 rMSSD, SDNN을 산출하고, 운동 부하 지표(ACWR 등)와의 시차 관계를 분석하는 것이 목적이다. 따라서 다음 조건을 충족하는 공개 데이터셋이 필요하다.
+
+지표 수식 정의는 [METRICS_FORMULAS.md](../METRICS_FORMULAS.md)를 교차참조한다.
 
 **필수 컬럼:**
 - RR intervals (또는 beat-to-beat 심박 원자료)
@@ -18,6 +22,38 @@
 
 ---
 
+## 1-A. PhysioNet ACTES 실측 표본 요약
+
+실제 분석에서 확인된 수치 (출처: [reports/track_A_model_comparison.md](../../reports/track_A_model_comparison.md)):
+
+| 항목 | 실측값 |
+|------|--------|
+| 피험자 수 | **18명** (fencing 10명, kayak 6명, triathlon 2명) |
+| 총 RR 기록 | **52,062건** |
+| 이상치 필터링 전 유효 RR | 50,914건 |
+| 이상치 필터링 후 유효 RR | **35,590건** |
+| 제거된 이상치 비율 | **30.1%** (피험자별 중앙값 ± 20% 기준) |
+| 유효 HRV 산출 건수 | 67 / 72 (피험자 × 파워구간) |
+| 파워 구간 | Rest · Low · Moderate · High (P_vt1·P_vt2 기준) |
+
+> 코드 경로: `src/metrics/hrv_features.py` (rMSSD, SDNN, ln_rMSSD 산출), `src/data/preprocess.py` (RR 이상치 필터)
+
+---
+
+## 1-B. 데이터 흐름 (Track A 파이프라인)
+
+```mermaid
+flowchart TD
+    A["PhysioNet ACTES<br/>RR 원자료 52,062건"] --> B["이상치 필터링<br/>중앙값 ±20% 제거<br/>→ 유효 35,590건 (30.1% 제거)"]
+    B --> C["파워구간 분류<br/>Rest / Low / Moderate / High<br/>(P_vt1, P_vt2 기준)"]
+    C --> D["HRV 산출<br/>src/metrics/hrv_features.py<br/>rMSSD · SDNN · ln_rMSSD"]
+    D --> E["구간별 집계<br/>67/72 유효 관측<br/>(min_count=30 미만 5건 NA)"]
+    E --> F["혼합효과모형<br/>rMSSD ~ power_mean<br/>+ (1|subject)"]
+    F --> G["결과 보고<br/>reports/track_A_model_comparison.md"]
+```
+
+---
+
 ## 2. 후보 데이터셋 비교표
 
 | 항목 | **1순위: PhysioNet ACTES** | **2순위: Autonomic Aging (PhysioNet)** | **3순위: Exercise ECG (Lobachevsky Univ.)** |
@@ -27,11 +63,11 @@
 | **주요 내용** | 다단계 점증 운동 부하 검사(Incremental Exercise Test) 중 beat-to-beat RR 간격, 파워(W), VO2, VCO2, 환기량 등 심폐 운동 검사(CPET) 데이터 | 건강한 성인의 안정 시 및 기립 경사 검사(tilt test) 시 RR 간격, 혈압, 호흡 데이터 | 자전거 에르고미터 운동 중 ECG 원형, 호흡, 혈압, VO2 데이터 |
 | **RR 간격** | beat-to-beat RR (ms) 직접 제공 | beat-to-beat RR 직접 제공 | ECG 원파형에서 R-peak 탐지 후 추출 필요 |
 | **운동 부하 정보** | power (W), VO2 (mL/min/kg), 단계별 부하 프로토콜 | 기립 경사 검사 (수동적 자세 변화, 능동적 운동 부하 아님) | power (W), VO2, 단계별 부하 프로토콜 |
-| **피험자 수** | ~38명 (건강한 성인, 훈련 전후) | ~1,100명 (광범위 연령대) | ~25명 |
+| **피험자 수** | **18명** (실측; 초기 문서 ~38명 표기는 전체 ACTES 확장판 기준) | ~1,100명 (광범위 연령대) | ~25명 |
 | **세션 구조** | 훈련 기간 전후 2회 측정 (pre/post training) | 단일 세션 (안정+기립) | 단일 세션 운동 부하 검사 |
 | **라이선스** | PhysioNet Credentialed Health Data License 1.5.0 (PhysioNet 계정 + 데이터 이용 동의 후 접근) | PhysioNet Open Data License (자유 접근) | PhysioNet Restricted Health Data License (계정 필요) |
 | **파일 형식** | CSV/TSV, WFDB 형식 | CSV, WFDB 형식 | EDF/WFDB 형식 |
-| **인용 논문** | Gronwald et al. (관련 문헌 PhysioNet 페이지 참조) | Muehlsteff et al. / Autonomic Aging 프로젝트 | Kazemnejad et al. |
+| **인용 논문** | Muniz-Pardos et al. (2023). PhysioNet ACTES. Open Data Commons Attribution License v1.0 | Muehlsteff et al. / Autonomic Aging 프로젝트 | Kazemnejad et al. |
 
 ---
 
@@ -46,13 +82,20 @@
 - PhysioNet의 표준화된 데이터 배포 체계를 따름
 - CPET 프로토콜이 명확히 문서화되어 있어 재현성 우수
 
+**실측 분석 결과 요약** (출처: reports/track_A_model_comparison.md):
+- 파워구간 증가에 따라 rMSSD 단조 감소: Rest 7.60ms → High 4.59ms (약 40% 감소)
+- SDNN 급격 감소: Rest 48.91ms → High 6.70ms
+- 혼합효과모형(랜덤절편) power_mean 계수 = **−0.016** (p < 0.001)
+- 개인 간 ICC ≈ **0.14** (랜덤절편 분산 0.561 / 잔차 분산 3.460)
+- OLS R² = 0.245 (구간변수 모형)
+
 **단점:**
 - Credentialed Access로 PhysioNet 계정 등록 및 데이터 이용 동의서 제출이 필요 (즉시 다운로드 불가, 승인까지 수일 소요 가능)
-- 피험자 수가 ~38명으로, 대규모 통계 분석에는 통계적 검정력이 제한적
+- 실제 사용 피험자 18명으로, 대규모 통계 분석에는 통계적 검정력이 제한적
 - 단일 세션(점증 부하 검사) 데이터이므로, 실제 시즌형 "일별 부하 → 다음 날 HRV" 종단 분석과는 설계가 다름
 - 부하 지표를 ACWR(7일/28일 rolling)로 변환하려면 세션 내 단계를 "일별 부하"로 재정의하는 설계적 판단이 필요
 
-**재현성 평가:** 높음 -- PhysioNet 표준 형식, 명확한 프로토콜 문서, 인용 논문 존재
+**재현성 평가:** 높음 — PhysioNet 표준 형식, 명확한 프로토콜 문서, 인용 논문 존재
 
 ---
 
@@ -65,11 +108,11 @@
 - 연령 범위가 넓어 다양한 인구 통계적 분석 가능
 
 **단점:**
-- **운동 부하 데이터가 없음** -- 기립 경사 검사(tilt test)는 수동적 자세 변화이므로 power/VO2 기반 부하 지표 산출이 불가능
+- **운동 부하 데이터가 없음** — 기립 경사 검사(tilt test)는 수동적 자세 변화이므로 power/VO2 기반 부하 지표 산출이 불가능
 - 단일 세션 측정으로 종단적 부하-회복 분석이 불가능
 - 스포츠/훈련 맥락과의 관련성이 낮음
 
-**재현성 평가:** 높음 -- 오픈 라이선스, 대규모 데이터, 표준 형식
+**재현성 평가:** 높음 — 오픈 라이선스, 대규모 데이터, 표준 형식
 
 **적합성 판단:** 트랙 A의 핵심 요구사항인 "운동 부하 관련 정보"가 부재하므로, 단독 사용은 부적합. 다만 HRV 지표 산출 파이프라인의 검증 용도로 보조적 활용 가능.
 
@@ -88,7 +131,7 @@
 - Restricted Health Data License로 접근 절차가 가장 복잡
 - 데이터 품질(ECG 잡음, 운동 중 아티팩트)에 따라 RR 추출 신뢰도가 변동
 
-**재현성 평가:** 중간 -- R-peak 탐지 알고리즘 선택에 따라 결과 재현성이 달라질 수 있음
+**재현성 평가:** 중간 — R-peak 탐지 알고리즘 선택에 따라 결과 재현성이 달라질 수 있음
 
 ---
 
@@ -111,10 +154,11 @@
 2. **점증 부하 프로토콜**: 단계별로 부하가 증가하므로 부하 강도에 따른 HRV 반응의 dose-response 관계를 직접 관찰 가능
 3. **훈련 전후 비교 가능**: pre/post training 설계로 훈련 적응에 따른 자율신경 반응 변화 분석 가능
 4. **PhysioNet 표준 형식**: 데이터 품질 관리 및 재현 가능성이 보장됨
+5. **실측 검증**: 18명 · 35,590 유효 RR 기반 분석에서 파워-rMSSD 음의 dose-response 관계가 통계적으로 확인됨 (p < 0.001)
 
 **한계 인식 및 대응 전략:**
 - ACWR(7일/28일 rolling) 산출을 위해, 점증 부하 검사의 각 단계를 "부하 단위"로 재정의하거나, pre/post 두 시점의 총 부하를 비교하는 방식으로 설계를 조정해야 함
-- 피험자 38명은 혼합효과모형에서 그룹 수준 추정에 최소한의 검정력만 확보 가능 → 효과크기(Cohen's d) 보고로 보완
+- 피험자 18명은 혼합효과모형에서 그룹 수준 추정에 최소한의 검정력만 확보 가능 → 효과크기(Cohen's d) 보고로 보완
 - 시즌형 종단 분석(daily load → next-day HRV)은 이 데이터셋의 구조적 한계이므로, PoV에서 "세션 내 부하-HRV 반응" 관점으로 프레이밍 조정 필요
 
 **Credentialed Access 취득 절차:**
@@ -123,11 +167,27 @@
 3. 연구 목적 기술
 4. 승인 후 다운로드 (통상 1~3 영업일)
 
+**관련 코드 경로:**
+- `src/metrics/hrv_features.py` — rMSSD, SDNN, ln_rMSSD 산출
+- `src/data/preprocess.py` — RR 이상치 필터(중앙값 ±20%), 파워구간 분류
+- `src/stats/mixed_effects.py` — 혼합효과모형 (`rMSSD ~ power_mean + (1|subject)`)
+- `notebooks/track_A_real.ipynb` — 재현 노트북 (37셀, 실행 완료)
+
 ---
 
 ## 6. 참고문헌
 
 - Goldberger, A. L., et al. (2000). PhysioBank, PhysioToolkit, and PhysioNet: Components of a new research resource for complex physiologic signals. *Circulation*, 101(23), e215-e220.
-- Gronwald, T., et al. (ACTES 관련 문헌) -- PhysioNet 데이터셋 페이지 참조
+- Muniz-Pardos, B., et al. (2023). ACTES Cycloergometer Exercise Dataset. *PhysioNet*. https://physionet.org/content/actes-cycloergometer-exercise/1.0.0/
 - Shaffer, F., & Ginsberg, J. P. (2017). An overview of heart rate variability metrics and norms. *Frontiers in Public Health*, 5, 258.
 - Plews, D. J., et al. (2013). Training adaptation and heart rate variability in elite endurance athletes. *International Journal of Sports Physiology and Performance*, 8(6), 688-694.
+- Buchheit, M. (2014). Monitoring training status with HR measures. *International Journal of Sports Physiology and Performance*, 9(5), 883-895.
+
+---
+
+## 변경 이력
+
+| 버전 | 일자 | 변경 내용 |
+|------|------|-----------|
+| v1 | 2026-02-10 | 초기 작성 |
+| v2 | 2026-05-30 | mermaid 데이터흐름 추가, 실측 표본수·수치 반영 (18명·52,062→35,590건·30.1% 필터·ICC≈0.14), 코드 경로 교차참조, 용어 통일, 메타블록 추가 |

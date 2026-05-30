@@ -146,3 +146,19 @@
   - `beta_acwr_hooper=-0.08`, `beta_mono_hooper=+0.14`, `beta_strain_hooper=-0.00007` (Track B M4 실제 계수)
   - `seed=2024` (기존 42와 독립)
 - **영향**: `src/data/synthetic_integrated.py` DGP 모듈, `tests/test_synthetic_integrated.py` 18개 테스트, `notebooks/run_integrated_hypothesis.py` 실행 스크립트
+
+---
+
+## ADR-013: 실험 운영 문서 체계 표준화
+
+- **일자**: 2026-05-30
+- **상태**: 채택
+- **맥락**: `docs/track_A/`·`docs/track_B/` 문서 다수가 stub(86~185 bytes) 상태였고, 실험 운영을 위한 거버넌스·실행 런북·전체 파이프라인 요구사항 문서가 부재했다. 트랙 간 문서 구조·완성도도 불균형(Track A 15% vs Track B 75%)이었다.
+- **결정**: 다음 문서 체계를 표준화한다.
+  - **신규 운영 문서 3종** (docs/ 루트, `DRD_v*.md`·`RESEARCH_PROTOCOL.md`와 동일한 flat 컨벤션): `TRD_v1.0.md`(Stage 0~8 원자적 요구사항), `GOVERNANCE.md`(거버넌스·용어집·RACI·리스크·보고표준), `PLAYBOOK.md`(실행 런북)
+  - **track 문서 공통 템플릿**: 6종(PROTOCOL/DATASETS/METRICS/EDA_PLAN/STATS_PLAN/EXPECTED_OUTPUTS) 상단 메타블록(문서 ID·버전·최종수정·상위문서) 통일, stub 7개를 실측 근거로 상세화
+  - **버전 정책**: 기존 충실 문서는 in-place 보강 시 헤더 `버전: v2` + 하단 `## 변경 이력` 기록(별도 `_v2` 파일 미생성)
+  - **mermaid 적극 활용**: 데이터흐름·게이트·의존성·인과 DAG 등. 한글/괄호/콜론 라벨은 `["..."]` 따옴표, 줄바꿈 `<br/>`
+  - **지표 정의 단일 출처(SSOT)**: 수식 원전은 `METRICS_FORMULAS.md`, track METRICS.md는 교차참조 + Track 특이사항만 기술
+- **근거**: 실험 재현성·추적성(품질 기준)과 부상예측 단계(Stage 8) 실행을 위해 우선순위·검증경로가 명시된 요구사항·운영 문서가 필요하다. `METRICS_FORMULAS.md`의 원자적 포맷과 `DRD_v3.0.md`의 버전 이력·다이어그램 관행을 차용한다.
+- **영향**: `docs/TRD_v1.0.md`·`docs/GOVERNANCE.md`·`docs/PLAYBOOK.md` 신규, `docs/track_A/`·`docs/track_B/` 12문서 상세화/보강, `docs/README.md` 문서 지도·인덱스 추가

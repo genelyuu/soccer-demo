@@ -42,3 +42,74 @@
 - **재현성**: seed, 버전, 파라미터 문서화
 - **추적성**: 모든 지표/그림/표에서 산출 코드·파라미터 역추적 가능
 - **reviewer-safe 톤**: '시사한다/관찰된다/일관된 경향'으로 기술
+
+## 문서 지도
+
+```mermaid
+flowchart TD
+    README["docs/README.md<br/>(문서 진입점·인덱스)"]
+
+    subgraph OPS["실험 운영 (governance·실행·요구사항)"]
+        TRD["TRD_v1.0.md<br/>(Stage 0~8 원자적 요구사항)"]
+        GOV["GOVERNANCE.md<br/>(거버넌스·용어집·RACI·리스크)"]
+        PLAY["PLAYBOOK.md<br/>(실행 런북·체크리스트)"]
+    end
+
+    subgraph DESIGN["연구 설계"]
+        PROTO["RESEARCH_PROTOCOL.md<br/>(부상예측 사전등록·P0~P6)"]
+        INJ["INJURY_PREDICTION_REFERENCES.md<br/>(부상예측 문헌·데이터)"]
+    end
+
+    subgraph STD["표준·참조"]
+        MF["METRICS_FORMULAS.md<br/>(지표 수식 원전)"]
+        REF["REFERENCES.md<br/>(문헌)"]
+        DSM["DATA_SCHEMA_MAPPING.md<br/>(스키마 매핑)"]
+        DEC["DECISIONS.md<br/>(ADR)"]
+    end
+
+    subgraph TRK["트랙 문서"]
+        TA["track_A/*<br/>(HRV·ACTES)"]
+        TB["track_B/*<br/>(부하+설문·SoccerMon)"]
+    end
+
+    README --> OPS
+    README --> DESIGN
+    README --> STD
+    README --> TRK
+    TRD --> PROTO
+    TRD --> MF
+    GOV --> DEC
+    PLAY --> TRK
+    TA --> MF
+    TB --> MF
+    PROTO --> INJ
+```
+
+## 문서 인덱스
+
+### 실험 운영
+| 문서 | 설명 |
+|---|---|
+| [TRD_v1.0.md](TRD_v1.0.md) | Stage 0~8 전체를 우선순위·중요도순 **원자적 요구사항**(REQ-ID)으로 정의 |
+| [GOVERNANCE.md](GOVERNANCE.md) | 역할·RACI, 게이트 승인, 사전등록 동결, 재현성, 보고표준, 리스크 레지스터, 용어집 |
+| [PLAYBOOK.md](PLAYBOOK.md) | 환경구축→데이터→지표→EDA→모형→가설→리포트 단계별 실행 런북·체크리스트·트러블슈팅 |
+
+### 연구 설계
+| 문서 | 설명 |
+|---|---|
+| [RESEARCH_PROTOCOL.md](RESEARCH_PROTOCOL.md) | 부상예측 격상 사전등록 프로토콜(H1~H4, P0~P6) |
+| [INJURY_PREDICTION_REFERENCES.md](INJURY_PREDICTION_REFERENCES.md) | 부상예측 공개 데이터셋·핵심 문헌 |
+
+### 표준·참조
+| 문서 | 설명 |
+|---|---|
+| [METRICS_FORMULAS.md](METRICS_FORMULAS.md) | 지표 수식 원전(원자적 요구사항 포맷) |
+| [REFERENCES.md](REFERENCES.md) | 참고 문헌 |
+| [DATA_SCHEMA_MAPPING.md](DATA_SCHEMA_MAPPING.md) | 데이터 스키마 매핑 |
+| [DECISIONS.md](DECISIONS.md) | 결정 기록(ADR-001~) |
+
+### 트랙 문서
+| Track A (HRV·ACTES) | Track B (부하+설문·SoccerMon) |
+|---|---|
+| [PROTOCOL](track_A/PROTOCOL.md) · [DATASETS](track_A/DATASETS.md) · [METRICS](track_A/METRICS.md) | [PROTOCOL](track_B/PROTOCOL.md) · [DATASETS](track_B/DATASETS.md) · [METRICS](track_B/METRICS.md) |
+| [EDA_PLAN](track_A/EDA_PLAN.md) · [STATS_PLAN](track_A/STATS_PLAN.md) · [EXPECTED_OUTPUTS](track_A/EXPECTED_OUTPUTS.md) | [EDA_PLAN](track_B/EDA_PLAN.md) · [STATS_PLAN](track_B/STATS_PLAN.md) · [EXPECTED_OUTPUTS](track_B/EXPECTED_OUTPUTS.md) |
