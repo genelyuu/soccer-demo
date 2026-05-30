@@ -7,7 +7,9 @@ Track B 분석 스크립트 — SoccerMon 데이터셋 (Midoglu et al., 2024)
 실행: python notebooks/run_track_B.py
 """
 import sys
-sys.path.insert(0, "C:/dev/soccer_rnd")
+from pathlib import Path
+PROJECT_ROOT_PATH = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(PROJECT_ROOT_PATH))
 
 import os
 import warnings
@@ -29,7 +31,7 @@ np.random.seed(42)
 # ─────────────────────────────────────────────────────────────────────────────
 # 경로 설정
 # ─────────────────────────────────────────────────────────────────────────────
-BASE_DIR = "C:/dev/soccer_rnd"
+BASE_DIR = str(PROJECT_ROOT_PATH)
 RAW_DIR = os.path.join(BASE_DIR, "data/raw/track_B/subjective")
 FIG_DIR = os.path.join(BASE_DIR, "reports/figures")
 PROC_DIR = os.path.join(BASE_DIR, "data/processed")
@@ -46,6 +48,10 @@ plt.rcParams.update({
     "axes.labelsize": 10,
 })
 sns.set_style("whitegrid")
+# 한글 폰트 적용 (Noto Sans KR 우선) — sns.set_style 이후에 호출해야 덮어쓰기 방지
+from src.viz.fonts import apply_korean_font
+_font = apply_korean_font()
+print(f"[폰트] 적용된 한글 폰트: {_font}")
 
 # ─────────────────────────────────────────────────────────────────────────────
 # 1. 데이터 적재 및 Wide → Long 변환

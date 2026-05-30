@@ -14,7 +14,7 @@ PhysioNet ACTES 데이터셋을 기반으로 파워 구간별 HRV(rMSSD, SDNN)�
   7. 처리 데이터 저장 및 결과 출력
 
 실행:
-  cd C:/dev/soccer_rnd && python notebooks/run_track_A.py
+  cd soccer_rnd && python notebooks/run_track_A.py
 """
 
 # ──────────────────────────────────────────────────────────────────────
@@ -24,8 +24,10 @@ import sys
 import os
 import warnings
 
-# 프로젝트 루트를 모듈 탐색 경로에 추가
-sys.path.insert(0, "C:/dev/soccer_rnd")
+# 프로젝트 루트를 모듈 탐색 경로에 추가 (__file__ 기준으로 산출하여 이식성 확보)
+from pathlib import Path
+PROJECT_ROOT_PATH = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(PROJECT_ROOT_PATH))
 
 # 비대화형 백엔드 설정 (그림 저장 전용)
 import matplotlib
@@ -58,7 +60,7 @@ np.random.seed(42)
 # ──────────────────────────────────────────────────────────────────────
 # 경로 상수
 # ──────────────────────────────────────────────────────────────────────
-PROJECT_ROOT = "C:/dev/soccer_rnd"
+PROJECT_ROOT = str(PROJECT_ROOT_PATH)
 RAW_DIR = os.path.join(PROJECT_ROOT, "data", "raw", "track_A")
 PROCESSED_DIR = os.path.join(PROJECT_ROOT, "data", "processed")
 FIGURES_DIR = os.path.join(PROJECT_ROOT, "reports", "figures")
@@ -266,12 +268,10 @@ if not hrv_valid.empty:
 # ══════════════════════════════════════════════════════════════════════
 section_header("4. EDA 시각화")
 
-# 한글 폰트 설정 시도 (없으면 기본 폰트 사용)
-try:
-    plt.rcParams["font.family"] = "Malgun Gothic"
-    plt.rcParams["axes.unicode_minus"] = False
-except Exception:
-    pass
+# 한글 폰트 설정 (Noto Sans KR 우선, 공통 헬퍼 사용)
+from src.viz.fonts import apply_korean_font
+_font = apply_korean_font()
+print(f"[폰트] 적용된 한글 폰트: {_font}")
 
 # ── 4-1. 파워 구간별 rMSSD 박스플롯 ──
 print("  [4-1] 파워 구간별 rMSSD 박스플롯 생성 중...")

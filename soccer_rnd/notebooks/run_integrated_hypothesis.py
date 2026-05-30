@@ -30,6 +30,9 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
+from src.viz.fonts import apply_korean_font
+_font = apply_korean_font()
+
 from src.data.synthetic_integrated import (
     DEFAULT_PARAMS,
     generate_integrated_dataset,
