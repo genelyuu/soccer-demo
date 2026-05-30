@@ -34,6 +34,15 @@
 | **7. 종합 보고** | 실데이터 결과·효과크기·해석을 PoV 보고서로 통합 | [`reports/POV_REPORT.md`](reports/POV_REPORT.md) | ✅ 완료 |
 | **8. (계획) 부상 예측 격상** | 연관성 → 예측·인과·임상효용 격상. 부상 onset 라벨 기반 생존모형·case-crossover·decision-curve | [`docs/RESEARCH_PROTOCOL.md`](docs/RESEARCH_PROTOCOL.md) · [`docs/INJURY_PREDICTION_REFERENCES.md`](docs/INJURY_PREDICTION_REFERENCES.md) | 🔵 프로토콜 확정 |
 
+> **노트북 미리보기 (nbviewer)** — GitHub 자체 렌더가 느리거나 실패할 경우 아래 nbviewer 링크로 안정적으로 확인할 수 있다.
+> [track_A_eda](https://nbviewer.org/github/genelyuu/soccer-demo/blob/main/soccer_rnd/notebooks/track_A_eda.ipynb) ·
+> [track_A_real](https://nbviewer.org/github/genelyuu/soccer-demo/blob/main/soccer_rnd/notebooks/track_A_real.ipynb) ·
+> [track_A_stats](https://nbviewer.org/github/genelyuu/soccer-demo/blob/main/soccer_rnd/notebooks/track_A_stats.ipynb) ·
+> [track_B_eda](https://nbviewer.org/github/genelyuu/soccer-demo/blob/main/soccer_rnd/notebooks/track_B_eda.ipynb) ·
+> [track_B_real](https://nbviewer.org/github/genelyuu/soccer-demo/blob/main/soccer_rnd/notebooks/track_B_real.ipynb) ·
+> [track_B_stats](https://nbviewer.org/github/genelyuu/soccer-demo/blob/main/soccer_rnd/notebooks/track_B_stats.ipynb) ·
+> [integrated_hypothesis](https://nbviewer.org/github/genelyuu/soccer-demo/blob/main/soccer_rnd/notebooks/integrated_hypothesis.ipynb)
+
 ---
 
 ## 3. 핵심 결과 (Key Findings)
