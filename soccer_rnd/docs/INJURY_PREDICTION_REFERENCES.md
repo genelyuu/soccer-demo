@@ -26,6 +26,27 @@
 
 **핵심 시사**: 즉시 재현 가능한 *완전 공개* 부상+부하 데이터셋은 사실상 **D1(SoccerMon, 본 데이터)**과 **D2(Lövdal 육상)** 두 개다. 따라서 본 프로젝트의 강력한 확장은 **D1로 주 분석 → D2로 종목 전이(외적 타당도) 검증**이다.
 
+### 1.1 다모달(HRV + 부하 + 웰니스 + 부상) 통합 데이터 — R3 경로 후보
+
+> [`RESEARCH_PROTOCOL.md`](RESEARCH_PROTOCOL.md) §A′의 **R3 경로**(동일 선수에 객관 HRV와 주관 회복을 모두 갖춘 통합)를 위한 데이터 탐색 결과.
+> **결론: 동일 선수에 클린 RR/HRV + 일별 부하 + 웰니스 + 부상이 모두 있는 완전 공개 데이터셋은 현재 부재한다.** 가장 근접한 자원·템플릿:
+
+| # | 자원 | 구성 | HRV | 부상 | 공개 | 비고 |
+|---|---|---|---|---|---|---|
+| R3-1 | **PMData** (Thambawita et al., 2020) | PMSys(SoccerMon과 동일 로깅)+Fitbit Versa 2+Google Forms, 16명·5개월 | △(Fitbit) | ✗ | ✅ OSF/Simula | **최근접** — 동일 생태계 |
+| R3-2 | **ScopeSense** (2023) | 8.5개월 스포츠·영양·라이프스타일 라이프로깅 | △ | ✗ | ✅ | 라이프로깅 |
+| R3-3 | 웨어러블 HRV + 수면일지 연속 데이터셋 (2024/25) | 실세계 HRV + 수면 | ○ | ✗ | ✅(부분) | 부하·부상 없음 |
+| R3-4 | **Sanchez et al. (2025)** | 12주, 외·내적 부하 + HRV + 지각피로 + 수면 + **부상** | ○ | ○ | ✗ | **R3 설계 템플릿**(비공개) |
+| R3-5 | Flatt & Esco (2015) | 여자 축구 9명, 스마트폰 HRV + 부하, 3주 | ○ | ✗ | ✗ | 소표본 |
+| R3-6 | AFL 2년 내·외적 부하 + HRV (2024) | 호주풋볼 2시즌 | ○ | △ | ✗ | 종단 길지만 비공개 |
+
+**함의**: R3은 데이터 *공백*이 본질 → R1(SoccerMon 단일 데이터 복합지표)을 본선으로, R3은 **PMData식 조합 또는 전향적 신규 수집**을 전제한 데이터 취득 프로젝트로 분리한다.
+
+**광범위 탐색 보강(클린하지 않아도 활용 가능 후보)** — 상세 4계층 분류는 [`RESEARCH_PROTOCOL.md`](RESEARCH_PROTOCOL.md) §A′.5 참조:
+- **Tier B(원신호→HRV 파생, 파이프라인 검증용)**: Comprehensive PPG HR/HRV(arXiv 2505.18165), Multi-site PPG in-the-wild(arXiv 2605.17859), PhysioNet *Wearable Device Dataset: Stress+Exercise*(Sci Data 2025), CogWear/WESAD/PPG-DaLiA.
+- **Tier D(⚠ Kaggle "athlete" 데이터)**: Athlete Training & Recovery Tracker, Athlete Injury and Performance 등 — **다수 합성·시뮬레이션 추정 → 출처 검증 전 사용 금지**, 합성 데이터로 "실데이터 통합" 주장 시 신뢰성 붕괴.
+- **경로 확정(2026-05-30)**: R1 본선 → R2 보조 → R3 향후과제.
+
 ---
 
 ## 2. 핵심 문헌 (Key Literature)
@@ -83,6 +104,14 @@ ACWR과 부상 위험의 핵심 문헌(Hulin 2014, Blanch & Gabbett 2016, Gabbet
 - Public datasets repo: [GitHub josedv82](https://github.com/josedv82/public_sport_science_datasets)
 - Bahr 2016: [PubMed/BJSM]; Bittencourt 2016: [PubMed 27445362](https://pubmed.ncbi.nlm.nih.gov/27445362/)
 - ML reviews: [J Exp Orthop](https://link.springer.com/article/10.1186/s40634-021-00346-x), [Scoping review PMC12013557](https://pmc.ncbi.nlm.nih.gov/articles/PMC12013557/)
+- (R3) PMData: [SimulaMet](https://www.simulamet.no/research/pmdata-sports-logging-dataset), [OSF](https://osf.io/vx4bk/), [ACM](https://dl.acm.org/doi/abs/10.1145/3339825.3394926)
+- (R3) ScopeSense: [Springer](https://link.springer.com/chapter/10.1007/978-3-031-27077-2_39)
+- (R3) Sanchez et al. 2025 (12주 부하·HRV·부상): [SAGE](https://journals.sagepub.com/doi/10.1177/17479541251335613)
+- (R3) Flatt & Esco 2015 (여자 축구 HRV): [IJSPP](https://journals.humankinetics.com/view/journals/ijspp/10/8/article-p994.xml)
+- (R3) AFL 2년 부하·HRV (2024): [J Sports Sci](https://www.tandfonline.com/doi/full/10.1080/02640414.2024.2390238)
+- (R3 Tier B) PPG HR/HRV: [arXiv 2505.18165](https://arxiv.org/pdf/2505.18165), [Multi-site PPG arXiv 2605.17859](https://arxiv.org/html/2605.17859v2)
+- (R3 Tier B) PhysioNet Wearable Device Dataset(Stress+Exercise): [Sci Data](https://www.nature.com/articles/s41597-025-04845-9), [PhysioNet](https://physionet.org/content/wearable-device-dataset/1.0.1/); CogWear: [PhysioNet](https://physionet.org/content/consumer-grade-wearables/1.0.0/)
+- (R3 Tier D ⚠ provenance 미검증·합성 추정) Kaggle: [Athlete Training & Recovery](https://www.kaggle.com/datasets/prince7489/athlete-training-and-recovery-tracker-dataset), [Athlete Injury & Performance](https://www.kaggle.com/datasets/ziya07/athlete-injury-and-performance-dataset), [PMData mirror](https://www.kaggle.com/datasets/vlbthambawita/pmdata-a-sports-logging-dataset)
 
 ---
 
